@@ -17,7 +17,7 @@ public class EndPoint : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		Debug.Log("Entered");
 		if (other.gameObject.GetComponent<PlayerController>() != null) {
-			Debug.Log("You WIN 1!");
+			Debug.Log("You win");
 			_level.TriggerWinScene();
 		}
 	}

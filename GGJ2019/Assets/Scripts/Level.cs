@@ -23,8 +23,11 @@ public class Level : MonoBehaviour
     private MeshRenderer _dayMat;
     private MeshRenderer _nightMat;
 
+	private Timer _timer;
+
     void Awake()
     {
+		_timer = GetComponent<Timer>();
 		//_canvas = GameObject.Find("Canvas");
 		_startPosition = transform.Find("StartPosition").gameObject;
 		_endPosition = transform.Find("EndPosition").gameObject;
@@ -55,11 +58,11 @@ public class Level : MonoBehaviour
                 UpdateSkyColor(timeInSecond);
             }));
 
-        EventManager.StartListening(GameEvent.LEVEL_TIMER_END,
-            new Action<EventParam>(delegate(EventParam param)
-            {
-                EventManager.TriggerEvent(GameEvent.LEVEL_COMPLETED, new LevelCompletedParams(false, 100, 2));
-            }));
+        //EventManager.StartListening(GameEvent.LEVEL_TIMER_END,
+        //    new Action<EventParam>(delegate(EventParam param)
+        //    {
+        //        EventManager.TriggerEvent(GameEvent.LEVEL_COMPLETED, new LevelCompletedParams(false, 100, 2));
+        //    }));
         
         
         EventManager.TriggerEvent(GameEvent.START_LEVEL_TIMER, null);
@@ -87,8 +90,21 @@ public class Level : MonoBehaviour
 
     public void TriggerWinScene()
     {
-		Debug.Log("You WIN!");
-    }
+		float timeElasped = _timer.currentTick - _timer.startTimeOffset;
+		int timePoints = Mathf.RoundToInt(50000f - timeElasped);
+		int stars = 0;
+		int totalPoints = timePoints;
+		if (totalPoints > 40000f) {
+			stars = 3;
+		}
+		else if (totalPoints > 30000f) {
+			stars = 2;
+		}
+		else if (totalPoints > 15000f) {
+			stars = 1;
+		}
+		EventManager.TriggerEvent(GameEvent.LEVEL_COMPLETED, new LevelCompletedParams(false, timePoints, stars));
+	}
 
     public void TriggerRestartScene()
     {
