@@ -23,7 +23,7 @@ public class Level : MonoBehaviour
     private MeshRenderer _dayMat;
     private MeshRenderer _nightMat;
 
-    void Start()
+    void Awake()
     {
 		//_canvas = GameObject.Find("Canvas");
 		_startPosition = transform.Find("StartPosition").gameObject;

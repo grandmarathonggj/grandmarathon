@@ -16,9 +16,12 @@ public class PlayerController : MonoBehaviour
 	private float _rotationSpeed = 10.0f;
  
 	private Quaternion _lookRotation;
-	
+
+	private float yRotation;
+
 	private void Start()
 	{
+		yRotation = Camera.main.transform.eulerAngles.y;
 		_originalPos = this.transform.position;
 		circleIndicator = transform.GetComponentInChildren<CircleRenderer>();
 	}
@@ -41,7 +44,7 @@ public class PlayerController : MonoBehaviour
 			_dragVector3 = Input.mousePosition - _mouseStartPos;
 			_dragVector3 = clampVector3(_dragVector3);
 			
-			_direction = invertVector3Direction(swapYZ(_dragVector3)).normalized;
+			_direction = Quaternion.Euler(Vector3.up * yRotation) * invertVector3Direction(swapYZ(_dragVector3)).normalized;
 			circleIndicator.Render(1 + _dragDistance / 100f);
 			
 			Quaternion rotation = Quaternion.LookRotation(_direction, Vector3.up);

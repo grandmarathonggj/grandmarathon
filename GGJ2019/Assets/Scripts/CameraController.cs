@@ -13,8 +13,12 @@ public class CameraController : MonoBehaviour {
         mainCamera = Camera.main;
     }
 
-    void Update()
+	private void Start() {
+		target = GameObject.FindObjectOfType<PlayerController>().transform;
+	}
+
+	void Update()
     {
-        transform.position = Vector3.SmoothDamp(transform.position, target.position + new Vector3(0, 5, -6), ref cameraVelocity, smoothTime);
+        transform.position = Vector3.SmoothDamp(transform.position, target.position + new Vector3(-6, 10, -6), ref cameraVelocity, smoothTime);
     }
 }
