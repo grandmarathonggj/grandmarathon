@@ -13,7 +13,9 @@ public class TimerView : MonoBehaviour
     void Start()
     {
         timerText = GetComponent<Text>();
-        EventManager.StartListening(GameEvent.LEVEL_TIMER_TICK,
+		timerText.text = string.Format("{0:hh:mm:ss tt}", new DateTime(2019, 01, 01));
+
+		EventManager.StartListening(GameEvent.LEVEL_TIMER_TICK,
             new Action<EventParam>(delegate(EventParam param)
             {
                 var timeInSecond = ((TimerEventParams) param).currentTime;
@@ -26,7 +28,6 @@ public class TimerView : MonoBehaviour
             new Action<EventParam>(delegate(EventParam param) { timerText.text = "Time's up!"; }));
 
 
-        EventManager.TriggerEvent(GameEvent.START_LEVEL_TIMER, null);
     }
 
     // Update is called once per frame

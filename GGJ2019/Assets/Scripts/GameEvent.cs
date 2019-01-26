@@ -12,12 +12,14 @@ namespace DefaultNamespace
 
 class LevelCompletedParams : EventParam
 {
-    public bool completed;
+    public bool success;
     public int score;
+    public int star;
 
-    public LevelCompletedParams(bool completed, int score)
+    public LevelCompletedParams(bool success, int score,int star )
     {
-        this.completed = completed;
+        this.success = success;
         this.score = score;
+        this.star = star;
     }
 }
