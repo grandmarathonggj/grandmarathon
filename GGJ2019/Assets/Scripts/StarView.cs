@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StarView : MonoBehaviour {
-	public TextMeshProUGUI text;
+	public Text text;
 
 	// Use this for initialization
 	void Start ()
 	{
-		 text = GetComponent<TextMeshProUGUI>();
 	}
 
 	public void SetStars(int count)
 	{
+		text = GetComponent<Text>();
 		text.text = new string('✮', count);
 	}
 	// Update is called once per frame
