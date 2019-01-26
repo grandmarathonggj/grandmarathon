@@ -1,11 +1,12 @@
-using UnityEngine;
-using UnityEngine.Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class EventManager : MonoBehaviour {
+public class EventManager : MonoBehaviour
+{
 
-    private Dictionary <string, UnityEvent> eventDictionary;
+    private Dictionary<string, Action<EventParam>> eventDictionary;
 
     private static EventManager eventManager;
 
@@ -15,61 +16,78 @@ public class EventManager : MonoBehaviour {
         {
             if (!eventManager)
             {
-                eventManager = FindObjectOfType (typeof (EventManager)) as EventManager;
+                eventManager = FindObjectOfType(typeof(EventManager)) as EventManager;
 
                 if (!eventManager)
                 {
-                    Debug.LogError ("There needs to be one active EventManger script on a GameObject in your scene.");
+                    Debug.LogError("There needs to be one active EventManger script on a GameObject in your scene.");
                 }
                 else
                 {
-                    eventManager.Init (); 
+                    eventManager.Init();
                 }
             }
-
             return eventManager;
         }
     }
 
-    void Init ()
+    void Init()
     {
         if (eventDictionary == null)
         {
-            eventDictionary = new Dictionary<string, UnityEvent>();
+            eventDictionary = new Dictionary<string, Action<EventParam>>();
         }
     }
 
-    public static void StartListening (string eventName, UnityAction listener)
+    public static void StartListening(string eventName, Action<EventParam> listener)
     {
-        UnityEvent thisEvent = null;
-        if (instance.eventDictionary.TryGetValue (eventName, out thisEvent))
+        Action<EventParam> thisEvent;
+        if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
-            thisEvent.AddListener (listener);
-        } 
+            //Add more event to the existing one
+            thisEvent += listener;
+
+            //Update the Dictionary
+            instance.eventDictionary[eventName] = thisEvent;
+        }
         else
         {
-            thisEvent = new UnityEvent ();
-            thisEvent.AddListener (listener);
-            instance.eventDictionary.Add (eventName, thisEvent);
+            //Add event to the Dictionary for the first time
+            thisEvent += listener;
+            instance.eventDictionary.Add(eventName, thisEvent);
         }
     }
 
-    public static void StopListening (string eventName, UnityAction listener)
+    public static void StopListening(string eventName, Action<EventParam> listener)
     {
         if (eventManager == null) return;
-        UnityEvent thisEvent = null;
-        if (instance.eventDictionary.TryGetValue (eventName, out thisEvent))
+        Action<EventParam> thisEvent;
+        if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
-            thisEvent.RemoveListener (listener);
+            //Remove event from the existing one
+            thisEvent -= listener;
+
+            //Update the Dictionary
+            instance.eventDictionary[eventName] = thisEvent;
         }
     }
 
-    public static void TriggerEvent (string eventName)
+    public static void TriggerEvent(string eventName, EventParam eventParam)
     {
-        UnityEvent thisEvent = null;
-        if (instance.eventDictionary.TryGetValue (eventName, out thisEvent))
+        Action<EventParam> thisEvent = null;
+        if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
-            thisEvent.Invoke ();
+            thisEvent.Invoke(eventParam);
+            // OR USE  instance.eventDictionary[eventName](eventParam);
         }
     }
+}
+
+//Re-usable structure/ Can be a class to. Add all parameters you need inside it
+public class EventParam
+{
+    public string param1;
+    public int param2;
+    public float param3;
+    public bool param4;
 }
