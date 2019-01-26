@@ -197,36 +197,7 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 1556049707194846, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7, type: 2}
-      propertyPath: m_Name
-      value: HUD
-      objectReference: {fileID: 0}
-    - target: {fileID: 114743599390153570, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
-        type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114743599390153570, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
-        type: 2}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114682119254260912, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
-        type: 2}
-      propertyPath: m_havePropertiesChanged
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114682119254260912, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
-        type: 2}
-      propertyPath: m_isInputParsingRequired
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1556049707194846, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114003984175300878, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &432649077

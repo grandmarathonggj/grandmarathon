@@ -9,14 +9,16 @@ public class ScoreView : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        
         EventManager.StartListening(GameEvent.LEVEL_COMPLETED, new Action<EventParam>(delegate(EventParam param)
         {
-
+            transform.GetChild(0).gameObject.SetActive(true);
             var levelCompletedParams = (LevelCompletedParams) param;
             var starView = GetComponentInChildren<StarView>();
             starView.SetStars(levelCompletedParams.star);
             var intTextLerp = GetComponentInChildren<IntTextLerp>();
             intTextLerp.StartLerp(levelCompletedParams.score);
+            
         }));
     }
 
