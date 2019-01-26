@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465934, g: 0.49642956, b: 0.5748249, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -3430,7 +3430,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh16476
+  m_Name: pb_Mesh111616
   serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
@@ -4084,7 +4084,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 11b7cfe539826e94094b4852719518cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.94
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 11b7cfe539826e94094b4852719518cb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4092,19 +4092,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 11b7cfe539826e94094b4852719518cb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 11b7cfe539826e94094b4852719518cb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.758832
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 11b7cfe539826e94094b4852719518cb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 11b7cfe539826e94094b4852719518cb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.65128654
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 11b7cfe539826e94094b4852719518cb, type: 3}
       propertyPath: m_RootOrder
@@ -4112,7 +4112,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: 11b7cfe539826e94094b4852719518cb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 98.72301
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 11b7cfe539826e94094b4852719518cb, type: 3}
@@ -8049,6 +8049,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab9a248f827049f2b3b1277f839af90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MULTIPLIER: {x: 1, y: 1, z: 1}
+  GRAVITY: 0.3
+  RESISTANCE: 0.3
+  MAX_AX: 15
+  MAX_AY: 2.5
+  grounded: 0
+--- !u!114 &1958899455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1958899452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86bd04e5e8dfc46d1ab4654806732ea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &1958899456
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1958899452}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.0691494
+  m_Center: {x: 0, y: 0.5691495, z: 0}
 --- !u!43 &1991201784
 Mesh:
   m_ObjectHideFlags: 0
@@ -8479,7 +8508,7 @@ Transform:
   m_GameObject: {fileID: 2021919794}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
