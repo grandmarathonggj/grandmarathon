@@ -10,7 +10,7 @@ public class CustomPhysics : MonoBehaviour
 
     private Vector3 MULTIPLIER = new Vector3(1f, 1f, 1f);
     private Vector3 GRAVITY = new Vector3(0, 0.3f, 0);
-    private float RESISTANCE = 0.5f;
+    private float RESISTANCE = 0.3f;
 
     private Vector3 initAcceleration;
 
@@ -22,6 +22,7 @@ public class CustomPhysics : MonoBehaviour
 
 
     public bool grounded = false;
+    public bool controllable = true;
     public Vector3 tmp = new Vector3(0,0,0); 
 
     // Use this for initialization
@@ -34,14 +35,14 @@ public class CustomPhysics : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.grounded == true)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                this.Push(new Vector3(10, 2, 2));
-            }
+        //if (this.grounded == true && controllable == true)
+        //{
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        this.Push(new Vector3(10, 2, 2));
+        //    }
 
-        }
+        //}
 
         if (this.grounded == false)
         {
@@ -57,7 +58,13 @@ public class CustomPhysics : MonoBehaviour
             }
         }
         this.velocity += new Vector3(acceleration.x * MULTIPLIER.x, acceleration.y * MULTIPLIER.y, acceleration.z * MULTIPLIER.z) * Time.deltaTime;
-        this.velocity = new Vector3(Mathf.Max(this.velocity.x, 0), (grounded ? this.target.position.y >= tmp.y ?  tmp.y - this.target.position.y / 4 : 0 : this.velocity.y), this.velocity.z);
+        this.velocity = new Vector3(Mathf.Max(this.velocity.x, 0),this.velocity.y , this.velocity.z);
+       
+        if(velocity == Vector3.zero){
+            controllable = true;
+        }else{
+            controllable = false;
+        }
 
         if(this.grounded == false){
             DetectFloor();
@@ -71,16 +78,18 @@ public class CustomPhysics : MonoBehaviour
         return 0;
     }
 
+    private void Grounding(){
+        
+    }
+
     private void DetectFloor(){
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-
-            if (hit.distance >= this.target.position.y + this.velocity.y)
+            if (hit.point.y >= this.target.position.y + this.velocity.y)
             {
                 OnFloorHit(hit);
-
             }
         }
         else
@@ -93,9 +102,9 @@ public class CustomPhysics : MonoBehaviour
 
     private void OnFloorHit(RaycastHit hit){
         this.grounded = true;
+        this.target.position = new Vector3(this.target.position.x, hit.point.y, this.target.position.z);
         velocity = new Vector3(velocity.x, 0 ,velocity.z);
         acceleration = Vector3.zero;
-        tmp = hit.point;
     }
 
 	public void Push(Vector3 targetAcceleration){
