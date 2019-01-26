@@ -27,8 +27,12 @@ public class Level : MonoBehaviour
     private Timer _timer;
     private int _starCount;
 
+    public Camera mainCamera;
+
     void Awake()
     {
+        mainCamera = Camera.main;
+        
         _timer = GetComponent<Timer>();
         //_canvas = GameObject.Find("Canvas");
         _startPosition = transform.Find("StartPosition").gameObject;
@@ -126,9 +130,10 @@ public class Level : MonoBehaviour
         else _nightMat.materials[0].color = new Color(1, 1, 1, 1);
     }
 
-    public void TriggerWinScene()
+    public void TriggerWinScene(GameObject celebrationPrefab)
     {
         GameObject.FindObjectOfType<PlayerController>().enabled = false;
+        celebrationPrefab.GetComponent<Animator>().SetTrigger("Win");
         float timeElasped = _timer.currentTick - _timer.startTimeOffset;
         int timePoints = Mathf.RoundToInt(50000f - timeElasped);
 //		int stars = 0;
