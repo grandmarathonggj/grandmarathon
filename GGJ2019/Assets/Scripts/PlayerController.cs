@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 	private Vector3 _mouseStartPos;
 	private Vector3 _direction;
 	private float _dragDistance;
+	private float _circleRadius;
 	private Vector3 _dragVector3;
 
     private GrandmaController grandmaHerself;
@@ -39,7 +40,7 @@ public class PlayerController : MonoBehaviour
 			_dragDistance = 0.0f;
 			_direction = new Vector3();
 			_mouseStartPos = Input.mousePosition;
-			circleIndicator.Render( 1.0f );
+			circleIndicator.Render( _circleRadius );
 //			Cursor.visible = false;
 		} else if (Input.GetMouseButton(0))
 		{
@@ -50,7 +51,9 @@ public class PlayerController : MonoBehaviour
 			_dragVector3 = clampVector3(_dragVector3);
 			
 			_direction = Quaternion.Euler(Vector3.up * yRotation) * invertVector3Direction(swapYZ(_dragVector3)).normalized;
-			circleIndicator.Render(1 + _dragDistance / 100f);
+			_circleRadius = Mathf.Lerp( _circleRadius, 1 + _dragDistance / 100f, 0.1f);
+
+			circleIndicator.Render( _circleRadius );
 			
 			Quaternion rotation = Quaternion.LookRotation(_direction, Vector3.up);
 			transform.rotation = rotation;
