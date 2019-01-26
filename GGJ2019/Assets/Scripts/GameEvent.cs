@@ -6,11 +6,12 @@ namespace DefaultNamespace
         public static string LEVEL_COMPLETED = "LEVEL_COMPLETED";
         public static string NEXT_LEVEL = "NEXT_LEVEL";
         public static string RETRY_LEVEL = "RETRY_LEVEL";
+        public static string PICKUP = "PICKUP";
         public const string START_LEVEL_TIMER = "START_LEVEL_TIMER";
         public const string LEVEL_TIMER_TICK = "LEVEL_TIMER_TICK";
         public const string ANIMATE_SCORE = "ANIMATE_SCORE";
-		public const string PLAYER_DEATH = "PLAYER_DEATH";
-	}
+        public const string PLAYER_DEATH = "PLAYER_DEATH";
+    }
 }
 
 class LevelCompletedParams : EventParam
