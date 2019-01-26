@@ -1263,6 +1263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab9a248f827049f2b3b1277f839af90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bouncySound: {fileID: 8300000, guid: 51afa5ec5dbc54e438c5e66499fd0e41, type: 3}
   MULTIPLIER: {x: 1, y: 1, z: 0.78}
   GRAVITY: 0.3
   RESISTANCE: 0.3
@@ -1320,7 +1321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86bd04e5e8dfc46d1ab4654806732ea1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bouncySound: {fileID: 8300000, guid: 51afa5ec5dbc54e438c5e66499fd0e41, type: 3}
 --- !u!114 &114952162744444866
 MonoBehaviour:
   m_ObjectHideFlags: 1
