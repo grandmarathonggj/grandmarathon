@@ -8,12 +8,14 @@ public class CustomPhysics : MonoBehaviour
 
     private Transform target;
 
-    private Vector3 MULTIPLIER = new Vector3(1f, 1f, 1f);
-    private Vector3 GRAVITY = new Vector3(0, 0.3f, 0);
-    private float RESISTANCE = 0.3f;
+    public Vector3 MULTIPLIER = new Vector3(1f, 1f, 1f);
+    public float GRAVITY = 0.3f;
+    public float RESISTANCE = 0.3f;
 
-    private Vector3 initAcceleration;
+	public float MAX_AX = 15f;
+    public float MAX_AY = 2.5f;
 
+	private Vector3 initAcceleration;
 
     Vector3 MAX_PUSH = new Vector3(4, 3, 0);
 
@@ -21,9 +23,8 @@ public class CustomPhysics : MonoBehaviour
     Vector3 acceleration = new Vector3(0, -1f, 0);
 
 
-    public bool grounded = false;
-    public bool controllable = true;
-    public Vector3 tmp = new Vector3(0,0,0); 
+    private bool grounded = false;
+    private bool controllable = true;
 
     // Use this for initialization
     void Start()
@@ -48,10 +49,9 @@ public class CustomPhysics : MonoBehaviour
         {
             if (acceleration.y > -1f)
             {
-                acceleration = new Vector3(acceleration.x, Mathf.Max(acceleration.y - GRAVITY.y, -1), acceleration.z);
+                acceleration = new Vector3(acceleration.x, Mathf.Max(acceleration.y - GRAVITY, -1), acceleration.z);
             }
         }else{
-            Debug.Log("Grounded");
             if (velocity.x > 0)
             {
                 acceleration = new Vector3(acceleration.x - RESISTANCE, acceleration.y, acceleration.z);
@@ -107,7 +107,12 @@ public class CustomPhysics : MonoBehaviour
         acceleration = Vector3.zero;
     }
 
-	public void Push(Vector3 targetAcceleration){
+    public void Push(Vector3 dragAngle, float dragDistance){
+        float ax = Mathf.Lerp(0, MAX_AX, dragDistance);
+        float ay = Mathf.Lerp(0, MAX_AY, dragDistance);
+        float az = 0;
+
+        Vector3 targetAcceleration = new Vector3(ax, ay, az);
         Debug.Log("Push");
         this.grounded = false;
         this.velocity = new Vector3(targetAcceleration.x * MULTIPLIER.x, targetAcceleration.y * MULTIPLIER.y, 0) * Time.deltaTime;
