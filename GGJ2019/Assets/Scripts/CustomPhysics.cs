@@ -128,7 +128,7 @@ public class CustomPhysics : MonoBehaviour
 
     private void OnWallHit(RaycastHit hit)
     {
-        Debug.Log(hit.normal);
+        GetComponent<VFXController>().TriggerCollide(hit.point);
         this.target.position = new Vector3(hit.point.x, this.target.position.y, this.target.position.z);
 
         float newVx = Mathf.Approximately(hit.normal.x, 0) ? velocity.x : Mathf.Abs(velocity.x) * hit.normal.x;

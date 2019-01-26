@@ -4,7 +4,7 @@ using System.Collections;
 [RequireComponent(typeof(LineRenderer))]
 public class CircleRenderer : MonoBehaviour {
 
-    private int _numSegments = 20;
+    private int _numSegments = 40;
 
     void Start ( ) {
     }
