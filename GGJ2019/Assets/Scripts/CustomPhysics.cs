@@ -59,8 +59,8 @@ public class CustomPhysics : MonoBehaviour
         }
         this.velocity += new Vector3(acceleration.x * MULTIPLIER.x, acceleration.y * MULTIPLIER.y, acceleration.z * MULTIPLIER.z) * Time.deltaTime;
         float magnitute = Mathf.Max(this.velocity.x, 0);
-        float vx = magnitute * Mathf.Cos(transform.eulerAngles.y);
-        float vz = magnitute * Mathf.Sin(transform.eulerAngles.y);
+        float vx = magnitute * Mathf.Cos(transform.eulerAngles.y - 90);
+        float vz = magnitute * Mathf.Sin(transform.eulerAngles.y - 90);
 
         this.velocity = new Vector3(vx, this.velocity.y, vz);
        
