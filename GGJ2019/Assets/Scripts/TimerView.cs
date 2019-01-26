@@ -9,8 +9,8 @@ public class TimerView : MonoBehaviour
 {
     public Text timerText;
 
-    // Use this for initialization
-    void Start()
+	// Use this for initialization
+	void Start()
     {
         timerText = GetComponent<Text>();
 		timerText.text = string.Format("{0:hh:mm:ss tt}", new DateTime(2019, 01, 01));
@@ -20,7 +20,7 @@ public class TimerView : MonoBehaviour
             {
                 var timeInSecond = ((TimerEventParams) param).currentTime;
                 TimeSpan t = TimeSpan.FromSeconds(timeInSecond);
-                DateTime dt = new DateTime(2019, 01, 01);
+				DateTime dt = new DateTime(2019, 01, 01);
 
                 timerText.text = string.Format("{0:hh:mm:ss tt}", dt + t);
             }));

@@ -25,24 +25,27 @@ public class Level : MonoBehaviour
 
     void Start()
     {
-        //_canvas = GameObject.Find("Canvas");
-        //_startPosition = transform.Find("StartPosition").gameObject;
-        //_endPosition = transform.Find("EndPosition").gameObject;
+		//_canvas = GameObject.Find("Canvas");
+		_startPosition = transform.Find("StartPosition").gameObject;
+		_endPosition = transform.Find("EndPosition").gameObject;
+		if (PlayerPrefab != null) {
+			_startGO = GameObject.Instantiate(PlayerPrefab, _startPosition.transform.position, _startPosition.transform.rotation);
+		}
 
-        //if (StartPrefab != null) {
-        //	_startGO = GameObject.Instantiate(StartPrefab, _startPosition.transform.position, _startPosition.transform.rotation, transform);
-        //}
-        //else Debug.LogError("StartPrefab is missing!");
-        //if (EndPrefab != null) {
-        //	_endGO = GameObject.Instantiate(EndPrefab, _endPosition.transform.position, _endPosition.transform.rotation, transform);
-        //}
-        //else Debug.LogError("EndPrefab is missing!");
-        //if (HudPrefab != null) {
-        //	_hud = GameObject.Instantiate(HudPrefab);
-        //}
-        //else Debug.LogError("HudPrefab is missing!");
+		//if (StartPrefab != null) {
+		//	_startGO = GameObject.Instantiate(StartPrefab, _startPosition.transform.position, _startPosition.transform.rotation, transform);
+		//}
+		//else Debug.LogError("StartPrefab is missing!");
+		//if (EndPrefab != null) {
+		//	_endGO = GameObject.Instantiate(EndPrefab, _endPosition.transform.position, _endPosition.transform.rotation, transform);
+		//}
+		//else Debug.LogError("EndPrefab is missing!");
+		//if (HudPrefab != null) {
+		//	_hud = GameObject.Instantiate(HudPrefab);
+		//}
+		//else Debug.LogError("HudPrefab is missing!");
 
-        _dayMat = GameObject.Find("SkyCamera/Plane").GetComponent<MeshRenderer>();
+		_dayMat = GameObject.Find("SkyCamera/Plane").GetComponent<MeshRenderer>();
         _nightMat = GameObject.Find("SkyCamera/Plane2").GetComponent<MeshRenderer>();
 
         EventManager.StartListening(GameEvent.LEVEL_TIMER_TICK,
@@ -68,7 +71,8 @@ public class Level : MonoBehaviour
 
     void UpdateSkyColor(float timeInSeconds)
     {
-        float angle = (timeInSeconds / 86400) * 2 * Mathf.PI;
+		float offset = 9f / 24f;
+        float angle = ((timeInSeconds / 86400f)) * 2 * Mathf.PI;
         float sin = Mathf.Sin(angle);
         if (Mathf.Abs(sin) < 0.5f)
         {
@@ -76,7 +80,7 @@ public class Level : MonoBehaviour
             float nightAlpha = 0.5f - sin;
             _nightMat.materials[0].color = new Color(1, 1, 1, nightAlpha);
         }
-        else if (angle < Mathf.PI) _nightMat.materials[0].color = new Color(1, 1, 1, 0);
+        else if (-offset * 2 * Mathf.PI < angle && angle < Mathf.PI - offset * 2 * Mathf.PI) _nightMat.materials[0].color = new Color(1, 1, 1, 0);
         else _nightMat.materials[0].color = new Color(1, 1, 1, 1);
     }
 

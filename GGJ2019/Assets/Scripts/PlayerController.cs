@@ -76,4 +76,8 @@ public class PlayerController : MonoBehaviour
 		result.z = Mathf.Clamp(input.z, min, max);
 		return result;
 	}
+
+	private void OnTriggerEnter(Collider other) {
+		
+	}
 }

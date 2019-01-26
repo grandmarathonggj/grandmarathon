@@ -9,6 +9,7 @@ public class Timer : MonoBehaviour
 {
 	public bool Loop;
     public float currentTick;
+	public float startTimeOffset;
     public int timeScale;
     public int tickLimit;
 	public int roundToNearest;
@@ -28,7 +29,7 @@ public class Timer : MonoBehaviour
 
 			EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_TICK, new TimerEventParams(Mathf.FloorToInt(currentTick  / roundToNearest) * roundToNearest));
 
-			if (currentTick > tickLimit) {
+			if (currentTick > tickLimit + startTimeOffset) {
 				currentTick -= tickLimit;
 				continueTimer = false;
 				EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_END, new TimerEventParams(Mathf.FloorToInt(currentTick  / roundToNearest) * roundToNearest));
@@ -39,7 +40,7 @@ public class Timer : MonoBehaviour
     void StartTimer(EventParam eventParam)
 
     {
-        currentTick = 0;
+        currentTick = startTimeOffset;
 		continueTimer = true;
 
 	}

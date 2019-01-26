@@ -379,6 +379,7 @@ GameObject:
   - component: {fileID: 135531739872129282}
   - component: {fileID: 114067003545422392}
   - component: {fileID: 114851030615127564}
+  - component: {fileID: 54811419840896032}
   m_Layer: 0
   m_Name: Grandma
   m_TagString: Untagged
@@ -524,7 +525,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1649440715480660}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.31, y: 0, z: 4.41}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4670391612339606}
@@ -1073,6 +1074,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1219905878303450}
   m_Mesh: {fileID: 4300010, guid: 6eb5b64259bc7434e96d956249737a7b, type: 3}
+--- !u!54 &54811419840896032
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1854373100099228}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!114 &114067003545422392
 MonoBehaviour:
   m_ObjectHideFlags: 1
