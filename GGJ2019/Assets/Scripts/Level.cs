@@ -121,6 +121,6 @@ public class Level : MonoBehaviour
 
     public void TriggerRestartScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 }
