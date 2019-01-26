@@ -36,11 +36,11 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetMouseButtonDown(0))
+        if (GetComponent<CustomPhysics>().grounded)
         {
-            if (GetComponent<CustomPhysics>().grounded)
+            if (Input.GetMouseButtonDown(0))
             {
+
                 _dragDistance = 0.0f;
                 _direction = new Vector3();
                 _mouseStartPos = Input.mousePosition;
@@ -49,12 +49,10 @@ public class PlayerController : MonoBehaviour
                 _arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 Cursor.visible = false;
             }
-        }
-        else if (Input.GetMouseButton(0))
-        {
 
-            if (GetComponent<CustomPhysics>().grounded)
+            else if (Input.GetMouseButton(0))
             {
+
                 _dragDistance = Vector3.Distance(Input.mousePosition, _mouseStartPos);
                 _dragDistance = Mathf.Clamp(_dragDistance, 0f, 100f);
 
@@ -72,24 +70,37 @@ public class PlayerController : MonoBehaviour
                 Quaternion rotation = Quaternion.LookRotation(_direction, Vector3.up);
                 transform.rotation = rotation;
                 grandmaHerself.chargeAmount = _dragDistance / 100f;
+
+
             }
-
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            if (GetComponent<CustomPhysics>().grounded)
+            else if (Input.GetMouseButtonUp(0))
             {
-
                 _arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, 0.0f);
                 _arrowContainer.transform.localRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
                 GetComponent<CustomPhysics>().Push(_direction, _dragDistance / 100f);
             }
-        }
-        else
-        {
-            grandmaHerself.chargeAmount = 0;
-            Cursor.visible = true;
-            circleIndicator.Render(0.0f);
+            else
+            {
+                grandmaHerself.chargeAmount = 0;
+                Cursor.visible = true;
+                circleIndicator.Render(0.0f);
+            }
+        }else{
+            if (Input.GetMouseButtonDown(0))
+            {
+            }
+            else if (Input.GetMouseButton(0))
+            {
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+            }
+            else
+            {
+                grandmaHerself.chargeAmount = 0;
+                Cursor.visible = true;
+                circleIndicator.Render(0.0f);
+            }
         }
 
     }

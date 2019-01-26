@@ -21,8 +21,8 @@ public class CustomPhysics : MonoBehaviour
 
     Vector3 MAX_PUSH = new Vector3(4, 3, 0);
 
-    Vector3 velocity = new Vector3(0, 0, 0);
-    Vector3 acceleration = new Vector3(0, -1f, 0);
+    public Vector3 velocity = new Vector3(0, 0, 0);
+    public Vector3 acceleration = new Vector3(0, -1f, 0);
 
     public bool grounded = false;
     public bool collided = false;
@@ -32,7 +32,7 @@ public class CustomPhysics : MonoBehaviour
     void Start()
     {
         this.target = gameObject.transform;
-        this.AS = transform.Find("AudioElastic").GetComponent<AudioSource>();
+        this.AS = GetComponent<AudioSource>();
     }
 
 
@@ -94,36 +94,43 @@ public class CustomPhysics : MonoBehaviour
         }
 
         //Debug.Log(this.velocity);
+
         DetectFront();
-
-
         this.target.position += velocity;
     }
 
 
     private void DetectFront()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if (Mathf.Approximately(transform.rotation.x, 0) && Mathf.Approximately(transform.rotation.z, 0))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
-
-            float diffX = Mathf.Abs(hit.point.x - this.target.position.x);
-            float diffZ = Mathf.Abs(hit.point.z - this.target.position.z);
-
-            if (Mathf.Abs(this.velocity.x) > diffX)
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position + new Vector3(0, 0.1f, 0), transform.TransformDirection(new Vector3(velocity.x, 0 , velocity.z).normalized), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                if (collided == false)
+                Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), transform.TransformDirection(new Vector3(velocity.x, 0, velocity.z).normalized) * hit.distance, Color.red);
+
+                float diffX = hit.point.x - this.target.position.x;
+                float diffZ = hit.point.z - this.target.position.z;
+
+                if ((
+                    diffX * this.velocity.x > 0 &&
+                    Mathf.Abs(this.velocity.x) > Mathf.Abs(diffX)
+                ) || (
+                    diffZ * this.velocity.z > 0 &&
+                    Mathf.Abs(this.velocity.z) > Mathf.Abs(diffZ)
+                ))
                 {
+                    Debug.Break();
+        
                     OnWallHit(hit);
                 }
-            }
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
-            Debug.Log("Did not Hit");
 
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(new Vector3(velocity.x, 0, velocity.z)) * 1000, Color.white);
+
+            }
         }
     }
 
@@ -145,16 +152,15 @@ public class CustomPhysics : MonoBehaviour
         velocity = new Vector3(newVx, newVy, newVz);
         transform.LookAt(transform.position + new Vector3(velocity.x, 0, velocity.z));
         acceleration = new Vector3(newAx, newAy, newAz);
-        collided = true;
     }
 
 
     private void DetectNoFloor()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + new Vector3(0, 0.01f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position + new Vector3(0, 0.05f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            Debug.DrawRay(transform.position + new Vector3(0, 0.01f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position + new Vector3(0, 0.05f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
         }
         else
         {
@@ -166,40 +172,40 @@ public class CustomPhysics : MonoBehaviour
     private void DetectFloor()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + new Vector3(0.5f, 0.01f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position + new Vector3(0.5f, 0.05f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            Debug.DrawRay(transform.position + new Vector3(0.5f, 0.01f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-            if (hit.point.y >= this.target.position.y + this.velocity.y - 0.01f)
+            Debug.DrawRay(transform.position + new Vector3(0.5f, 0.05f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+            if (hit.point.y >= this.target.position.y + this.velocity.y - 0.05f)
             {
                 OnFloorHit(hit);
             }
         }
         else
         {
-            if (Physics.Raycast(transform.position - new Vector3(0.5f, -0.01f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            if (Physics.Raycast(transform.position - new Vector3(0.5f, -0.05f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                Debug.DrawRay(transform.position - new Vector3(0.5f, -0.01f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-                if (hit.point.y >= this.target.position.y + this.velocity.y - 0.01f)
+                Debug.DrawRay(transform.position - new Vector3(0.5f, -0.05f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+                if (hit.point.y >= this.target.position.y + this.velocity.y - 0.05f)
                 {
                     OnFloorHit(hit);
                 }
             }
             else
             {
-                if (Physics.Raycast(transform.position + new Vector3(0, 0.01f, 0.5f), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+                if (Physics.Raycast(transform.position + new Vector3(0, 0.05f, 0.5f), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
                 {
-                    Debug.DrawRay(transform.position + new Vector3(0, 0.01f, 0.5f), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-                    if (hit.point.y >= this.target.position.y + this.velocity.y - 0.01f)
+                    Debug.DrawRay(transform.position + new Vector3(0, 0.05f, 0.5f), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+                    if (hit.point.y >= this.target.position.y + this.velocity.y - 0.05f)
                     {
                         OnFloorHit(hit);
                     }
                 }
                 else
                 {
-                    if (Physics.Raycast(transform.position - new Vector3(0, 0.01f, 0.5f), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+                    if (Physics.Raycast(transform.position - new Vector3(0, 0.05f, 0.5f), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
                     {
-                        Debug.DrawRay(transform.position - new Vector3(0, 0.01f, 0.5f), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-                        if (hit.point.y >= this.target.position.y + this.velocity.y - 0.01f)
+                        Debug.DrawRay(transform.position - new Vector3(0, 0.05f, 0.5f), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+                        if (hit.point.y >= this.target.position.y + this.velocity.y - 0.05f)
                         {
                             OnFloorHit(hit);
                         }
@@ -207,7 +213,6 @@ public class CustomPhysics : MonoBehaviour
                     else
                     {
                         Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 1000, Color.white);
-                        Debug.Log("Did not Hit");
                     }
                 }
             }
@@ -217,10 +222,22 @@ public class CustomPhysics : MonoBehaviour
 
     private void OnFloorHit(RaycastHit hit)
     {
+        IBlock block = (IBlock)hit.collider.gameObject.GetComponents(typeof(IBlock))[0];
+
         this.grounded = true;
         this.target.position = new Vector3(this.target.position.x, hit.point.y, this.target.position.z);
         velocity = new Vector3(velocity.x, 0, velocity.z);
         acceleration = Vector3.zero;
+
+
+        if (block is SlideBlock)
+        {
+            RESISTANCE = -0.0003f;
+        }
+        else
+        {
+            RESISTANCE = 0.3f;
+        }
     }
 
     public void Push(Vector3 dragAngle, float dragDistance)
@@ -234,17 +251,25 @@ public class CustomPhysics : MonoBehaviour
 
         this.dragAngle = dragAngle;
         float ax = MAX_AX * dragDistance * dragAngle.x;
+        ax = ax > 0 ? Mathf.Max(2f * dragAngle.z, ax) : Mathf.Min(2f * dragAngle.z, ax);
         float ay = Mathf.Max(1.5f, MAX_AY * dragDistance);
         float az = MAX_AX * dragDistance * dragAngle.z;
+        az = az > 0 ? Mathf.Max(2f * dragAngle.z, az) : Mathf.Min(2f * dragAngle.z, az);
 
         Vector3 targetAcceleration = new Vector3(ax, ay, az);
-        Debug.Log(targetAcceleration);
         this.grounded = false;
         this.velocity = new Vector3(targetAcceleration.x * MULTIPLIER.x, targetAcceleration.y * MULTIPLIER.y, targetAcceleration.z * MULTIPLIER.z) * Time.deltaTime;
         this.acceleration = new Vector3(0, targetAcceleration.y * MULTIPLIER.y, 0);
+        StartCoroutine(disableCollideOneSecond());
     }
 
 
+    IEnumerator disableCollideOneSecond()
+    {
+        collided = true;
+        yield return new WaitForSeconds(0.1f);
+        collided = false;
+    }
     //public void Bounce(){
     //    Rebounce(0.3f);
     //}
