@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
 	private Vector3 _direction;
 	private float _dragDistance;
 	private Vector3 _dragVector3;
-	
+
+    public GrandmaController grandmaHerself;
 	private float _rotationSpeed = 10.0f;
  
 	private Quaternion _lookRotation;
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
 		yRotation = Camera.main.transform.eulerAngles.y;
 		_originalPos = this.transform.position;
 		circleIndicator = transform.GetComponentInChildren<CircleRenderer>();
+        grandmaHerself = transform.GetComponentInChildren<GrandmaController>();
 	}
      
 	// Update is called once per frame
@@ -49,10 +51,12 @@ public class PlayerController : MonoBehaviour
 			
 			Quaternion rotation = Quaternion.LookRotation(_direction, Vector3.up);
 			transform.rotation = rotation;
+            grandmaHerself.chargeAmount = _dragDistance / 100f;
 
         } else if(Input.GetMouseButtonUp(0)){
             GetComponent<CustomPhysics>().Push(_direction, _dragDistance);
         }else {
+            grandmaHerself.chargeAmount = 0;
 //			Cursor.visible = true;
 			circleIndicator.Render(0.0f);
 		}
