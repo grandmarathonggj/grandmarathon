@@ -43,7 +43,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000012, guid: 231aa687e45aa22419a986af5cc2a1dd,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -568,6 +569,7 @@ GameObject:
   - component: {fileID: 36555504}
   - component: {fileID: 36555503}
   - component: {fileID: 36555502}
+  - component: {fileID: 36555507}
   m_Layer: 9
   m_Name: DeathWall
   m_TagString: Untagged
@@ -941,6 +943,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
+--- !u!114 &36555507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 36555500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c158742f0c14cb4fae0a097cbc9ebc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &89120807
 GameObject:
   m_ObjectHideFlags: 0
@@ -2778,6 +2791,7 @@ GameObject:
   - component: {fileID: 1035209993}
   - component: {fileID: 1035209992}
   - component: {fileID: 1035209991}
+  - component: {fileID: 1035209996}
   m_Layer: 9
   m_Name: DeathWall
   m_TagString: Untagged
@@ -3151,6 +3165,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
+--- !u!114 &1035209996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1035209989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c158742f0c14cb4fae0a097cbc9ebc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1131198482
 GameObject:
   m_ObjectHideFlags: 0
@@ -3396,6 +3421,7 @@ GameObject:
   - component: {fileID: 1273228837}
   - component: {fileID: 1273228836}
   - component: {fileID: 1273228835}
+  - component: {fileID: 1273228840}
   m_Layer: 9
   m_Name: DeathWall
   m_TagString: Untagged
@@ -3769,6 +3795,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
+--- !u!114 &1273228840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1273228833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c158742f0c14cb4fae0a097cbc9ebc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1290273681
 GameObject:
   m_ObjectHideFlags: 0
@@ -4933,6 +4970,7 @@ GameObject:
   - component: {fileID: 1734872258}
   - component: {fileID: 1734872257}
   - component: {fileID: 1734872256}
+  - component: {fileID: 1734872261}
   m_Layer: 0
   m_Name: DeathZone
   m_TagString: Untagged
@@ -4960,10 +4998,10 @@ MeshCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1734872254}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 491213243}
@@ -5306,6 +5344,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
+--- !u!114 &1734872261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1734872254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c158742f0c14cb4fae0a097cbc9ebc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1769104620
 Mesh:
   m_ObjectHideFlags: 0
@@ -5644,6 +5693,7 @@ GameObject:
   - component: {fileID: 2128689229}
   - component: {fileID: 2128689228}
   - component: {fileID: 2128689227}
+  - component: {fileID: 2128689232}
   m_Layer: 9
   m_Name: DeathWall
   m_TagString: Untagged
@@ -6017,3 +6067,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityType: 0
+--- !u!114 &2128689232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2128689225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c158742f0c14cb4fae0a097cbc9ebc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

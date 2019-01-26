@@ -84,7 +84,4 @@ public class PlayerController : MonoBehaviour
 		return result;
 	}
 
-	private void OnTriggerEnter(Collider other) {
-		
-	}
 }

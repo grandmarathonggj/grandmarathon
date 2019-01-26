@@ -17,7 +17,8 @@ public class Level : MonoBehaviour
     private GameObject _startPosition;
     private GameObject _endPosition;
     private GameObject _startGO;
-    private GameObject _endGO;
+	private GameObject _playerGO;
+	private GameObject _endGO;
     private GameObject _hud;
     private GameObject _canvas;
     private MeshRenderer _dayMat;
@@ -32,7 +33,7 @@ public class Level : MonoBehaviour
 		_startPosition = transform.Find("StartPosition").gameObject;
 		_endPosition = transform.Find("EndPosition").gameObject;
 		if (PlayerPrefab != null) {
-			_startGO = GameObject.Instantiate(PlayerPrefab, _startPosition.transform.position, _startPosition.transform.rotation);
+			_playerGO = GameObject.Instantiate(PlayerPrefab, _startPosition.transform.position, _startPosition.transform.rotation);
 		}
 
 		//if (StartPrefab != null) {
@@ -58,19 +59,45 @@ public class Level : MonoBehaviour
                 UpdateSkyColor(timeInSecond);
             }));
 
-        //EventManager.StartListening(GameEvent.LEVEL_TIMER_END,
-        //    new Action<EventParam>(delegate(EventParam param)
-        //    {
-        //        EventManager.TriggerEvent(GameEvent.LEVEL_COMPLETED, new LevelCompletedParams(false, 100, 2));
-        //    }));
-        
-        
-        EventManager.TriggerEvent(GameEvent.START_LEVEL_TIMER, null);
-    }
+		//EventManager.StartListening(GameEvent.LEVEL_TIMER_END,
+		//    new Action<EventParam>(delegate(EventParam param)
+		//    {
+		//        EventManager.TriggerEvent(GameEvent.LEVEL_COMPLETED, new LevelCompletedParams(false, 100, 2));
+		//    }));
+
+
+		EventManager.TriggerEvent(GameEvent.START_LEVEL_TIMER, null);
+		EventManager.StartListening(GameEvent.PLAYER_DEATH,
+			new Action<EventParam>(delegate (EventParam param)
+			{
+				StartCoroutine(PlayerDeath());
+
+
+			}));
+
+	}
 
     void Update()
     {
     }
+
+	public IEnumerator PlayerDeath() {
+		//TODO: playanimation
+		//After animation:
+		Debug.Log("Player died");
+		_playerGO.GetComponent<GrandmaSoundController>().PlayDeath();
+		yield return new WaitForSeconds(3);
+		TriggerRestartScene();
+	}
+
+
+	public void RespawnPlayer() {
+		var temp = _playerGO;
+		if (PlayerPrefab != null) {
+			_playerGO = GameObject.Instantiate(PlayerPrefab, _startPosition.transform.position, _startPosition.transform.rotation);
+		}
+		GameObject.DestroyImmediate(temp);
+	}
 
     void UpdateSkyColor(float timeInSeconds)
     {
@@ -90,6 +117,7 @@ public class Level : MonoBehaviour
 
     public void TriggerWinScene()
     {
+		GameObject.FindObjectOfType<PlayerController>().enabled = false;
 		float timeElasped = _timer.currentTick - _timer.startTimeOffset;
 		int timePoints = Mathf.RoundToInt(50000f - timeElasped);
 		int stars = 0;
