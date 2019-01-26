@@ -26,7 +26,6 @@ public class TimerView : MonoBehaviour
             new Action<EventParam>(delegate(EventParam param) { timerText.text = "Time's up!"; }));
 
 
-        EventManager.TriggerEvent(GameEvent.START_LEVEL_TIMER, null);
     }
 
     // Update is called once per frame
