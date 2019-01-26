@@ -19,8 +19,7 @@ public class TimerView : MonoBehaviour
                 var timeInSecond = ((TimerEventParams) param).currentTime;
                 TimeSpan t = TimeSpan.FromSeconds(timeInSecond);
                 DateTime dt = new DateTime(2019, 01, 01);
-//here backslash is must to tell that colon is
-//not the part of format, it just a character that we want in output
+
                 timerText.text = string.Format("{0:hh:mm:ss tt}", dt + t);
             }));
 
