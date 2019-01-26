@@ -104,9 +104,9 @@ public class CustomPhysics : MonoBehaviour
     private void DetectFront()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + new Vector3(0, 0.2f,0), transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            Debug.DrawRay(transform.position+ new Vector3(0, 0.2f, 0), transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
 
             float diffX = Mathf.Abs(hit.point.x - this.target.position.x);
             float diffZ = Mathf.Abs(hit.point.z - this.target.position.z);
@@ -123,8 +123,11 @@ public class CustomPhysics : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             Debug.Log("Did not Hit");
+
         }
     }
+
+
 
     private void OnWallHit(RaycastHit hit)
     {
@@ -140,6 +143,7 @@ public class CustomPhysics : MonoBehaviour
         float newAz = Mathf.Approximately(hit.normal.z, 0) ? acceleration.z : Mathf.Abs(acceleration.z) * hit.normal.z;
 
         velocity = new Vector3(newVx, newVy, newVz);
+        transform.LookAt(transform.position + new Vector3(velocity.x, 0, velocity.z));
         acceleration = new Vector3(newAx, newAy, newAz);
         collided = true;
     }
@@ -150,7 +154,7 @@ public class CustomPhysics : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position + new Vector3(0, 0.01f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            Debug.DrawRay(transform.position + new Vector3(0,0.01f,0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position + new Vector3(0, 0.01f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
         }
         else
         {
@@ -162,9 +166,9 @@ public class CustomPhysics : MonoBehaviour
     private void DetectFloor()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + new Vector3(0, 0.01f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position + new Vector3(0.5f, 0.01f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            Debug.DrawRay(transform.position + new Vector3(0, 0.01f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position + new Vector3(0.5f, 0.01f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
             if (hit.point.y >= this.target.position.y + this.velocity.y - 0.01f)
             {
                 OnFloorHit(hit);
@@ -172,8 +176,41 @@ public class CustomPhysics : MonoBehaviour
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 1000, Color.white);
-            Debug.Log("Did not Hit");
+            if (Physics.Raycast(transform.position - new Vector3(0.5f, -0.01f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            {
+                Debug.DrawRay(transform.position - new Vector3(0.5f, -0.01f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+                if (hit.point.y >= this.target.position.y + this.velocity.y - 0.01f)
+                {
+                    OnFloorHit(hit);
+                }
+            }
+            else
+            {
+                if (Physics.Raycast(transform.position + new Vector3(0, 0.01f, 0.5f), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+                {
+                    Debug.DrawRay(transform.position + new Vector3(0, 0.01f, 0.5f), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+                    if (hit.point.y >= this.target.position.y + this.velocity.y - 0.01f)
+                    {
+                        OnFloorHit(hit);
+                    }
+                }
+                else
+                {
+                    if (Physics.Raycast(transform.position - new Vector3(0, 0.01f, 0.5f), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+                    {
+                        Debug.DrawRay(transform.position - new Vector3(0, 0.01f, 0.5f), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+                        if (hit.point.y >= this.target.position.y + this.velocity.y - 0.01f)
+                        {
+                            OnFloorHit(hit);
+                        }
+                    }
+                    else
+                    {
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 1000, Color.white);
+                        Debug.Log("Did not Hit");
+                    }
+                }
+            }
         }
     }
 
