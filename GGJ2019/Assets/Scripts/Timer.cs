@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Timer : MonoBehaviour
 {
-    public int _timer = 0;
+    public int currentTick = 0;
     public bool continueTimer = true;
     public int timeScale = 60;
+    public int tickLimit = 24;
 
     // Use this for initialization
     void Start()
@@ -24,7 +26,7 @@ public class Timer : MonoBehaviour
     void StartTimer(EventParam eventParam)
 
     {
-        _timer = 0;
+        currentTick = 0;
         StartCoroutine(_coTimer());
     }
 
@@ -33,9 +35,17 @@ public class Timer : MonoBehaviour
         while (continueTimer)
         {
             yield return new WaitForSeconds(1);
-            _timer++;
+            currentTick++;
 
-            EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_TICK, new TimerEventParams(_timer * timeScale));
+            EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_TICK, new TimerEventParams(currentTick * timeScale));
+
+            if (currentTick > tickLimit)
+            {
+                continueTimer = false;
+                EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_END, new TimerEventParams(currentTick * timeScale));
+
+                
+            }
         }
     }
 }

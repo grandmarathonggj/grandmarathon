@@ -22,6 +22,8 @@ public class TimerView : MonoBehaviour
 
                 timerText.text = string.Format("{0:hh:mm:ss tt}", dt + t);
             }));
+        EventManager.StartListening(GameEvent.LEVEL_TIMER_END,
+            new Action<EventParam>(delegate(EventParam param) { timerText.text = "Time's up!"; }));
 
 
         EventManager.TriggerEvent(GameEvent.START_LEVEL_TIMER, null);
