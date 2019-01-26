@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GrandmaController : MonoBehaviour
 {
@@ -38,12 +39,20 @@ public class GrandmaController : MonoBehaviour
             this.boneDefaultQuat = tranBone.localRotation;
                 
         }
+
+        public void ResetTransform()
+        {
+            tranBone.localPosition = boneDefaultPos;
+            tranBone.localRotation = boneDefaultQuat;
+        }
     }
 
     public enum GrandmaAnimationState
     {
         Idle,
-        Charge
+        Charge,
+        Jump,
+        Hit
     }
 
     private GrandmaAnimationState m_AnimationState;
@@ -56,6 +65,36 @@ public class GrandmaController : MonoBehaviour
         set
         {
             m_AnimationState = value;
+         
+            foreach (Tweener t in tweeners)
+            {
+                t.Kill();
+            }
+            tweeners.Clear();
+            tweeners = new List<Tweener>();
+
+            Dictionary<string, GrandmaBone>.ValueCollection boneValues = bones.Values;
+            foreach (GrandmaBone gb in boneValues)
+            {
+                //DOTween.Kill(gb.objBone.GetInstanceID());
+                gb.ResetTransform();
+            }
+
+            switch (value)
+            {
+                case GrandmaAnimationState.Idle:
+                    OnIdleInit();
+                    break;
+                case GrandmaAnimationState.Charge:
+                    OnChargeInit();
+                    break;
+                case GrandmaAnimationState.Jump:
+                    OnJumpInit();
+                    break;
+                case GrandmaAnimationState.Hit:
+                    OnHitInit();
+                    break;
+            }
         }
     }
 
@@ -63,6 +102,7 @@ public class GrandmaController : MonoBehaviour
     private float animationTimer;
     public float chargeAmount = 0;
     private Dictionary<string, GrandmaBone> bones;
+    private List<Tweener> tweeners = new List<Tweener>();
 
     private void Awake()
     {
@@ -87,13 +127,57 @@ public class GrandmaController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        animationState = GrandmaAnimationState.Charge;
+        animationState = GrandmaAnimationState.Idle;
 		
 	}
 
-    private void OnIdleUpdate()
+    private void OnIdleInit()
+    {
+        var t = 1.5f;
+
+        tweeners.Add(bones["Head"].tranBone.DOLocalRotate(new Vector3(-5.581f, 0, 0), t).SetLoops(-1, LoopType.Yoyo));
+        tweeners.Add(bones["Shoulder"].tranBone.DOLocalRotate(new Vector3(-90, 0, -2.73f), t).SetLoops(-1, LoopType.Yoyo));
+        tweeners.Add(bones["RightArm"].tranBone.DOLocalRotate(new Vector3(-12.352f, -3.933f, -32.648f), t).SetLoops(-1, LoopType.Yoyo));
+        tweeners.Add(bones["RightHand"].tranBone.DOLocalRotate(new Vector3(-6.354f, -10.169f, -0.953f), t).SetLoops(-1, LoopType.Yoyo));
+    }
+
+    private void OnChargeInit()
     {
 
+    }
+
+    private void OnJumpInit()
+    {
+        var t = 0.1f;
+        tweeners.Add(bones["Head"].tranBone.DOLocalRotate(new Vector3(-5.581f, 0, 0), t).SetLoops(-1, LoopType.Yoyo));
+
+        bones["Shoulder"].tranBone.localEulerAngles = new Vector3(-90, 0, -19.324f);
+        tweeners.Add(bones["Shoulder"].tranBone.DOLocalRotate(new Vector3(-90, 0, -24.337f), t).SetLoops(-1, LoopType.Yoyo));
+
+        bones["RightArm"].tranBone.localEulerAngles = new Vector3(14.84f, -3.044f, 0);
+        tweeners.Add(bones["RightArm"].tranBone.DOLocalRotate(new Vector3(-18.941f, -4.13f, -32.625f), t).SetEase(Ease.InOutCubic).SetLoops(-1, LoopType.Yoyo));
+
+        bones["LeftArm"].tranBone.localEulerAngles = new Vector3(39.311f, -4.768f, 32.699f);
+        tweeners.Add(bones["LeftArm"].tranBone.DOLocalRotate(new Vector3(-5.889f, -3.366f, 0), t).SetEase(Ease.InOutCubic).SetLoops(-1, LoopType.Yoyo));
+
+        //tweeners.Add(bones["RightHand"].tranBone.DOLocalRotate(new Vector3(-6.354f, -10.169f, -0.953f), t).SetLoops(-1, LoopType.Yoyo));
+
+        bones["RightLeg"].tranBone.localEulerAngles = new Vector3(-131.984f, -83.736f, 129.321f);
+        tweeners.Add(bones["RightLeg"].tranBone.DOLocalRotate(new Vector3(-96.533f, -50.09f, 94.26f), t).SetEase(Ease.InOutCubic).SetLoops(-1, LoopType.Yoyo));
+
+        bones["LeftLeg"].tranBone.localEulerAngles = new Vector3(-78.392f, 68.73f, -113.113f);
+        tweeners.Add(bones["LeftLeg"].tranBone.DOLocalRotate(new Vector3(-45.441f, 84f, -129f), t).SetEase(Ease.InOutCubic).SetLoops(-1, LoopType.Yoyo));
+
+    }
+
+    private void OnHitInit()
+    {
+
+    }
+
+    private void OnIdleUpdate()
+    {
+       
     }
 
     private void OnChargeUpdate()
@@ -116,16 +200,37 @@ public class GrandmaController : MonoBehaviour
         }        
     }
 	
+    private void OnJumpUpdate()
+    {
+
+    }
+
+    private void OnHitUpdate()
+    {
+
+    }
+
 	// Update is called once per frame
 	void Update ()
     {
-		switch (animationState)
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+            animationState = GrandmaAnimationState.Idle;
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            animationState = GrandmaAnimationState.Jump;
+
+        switch (animationState)
         {
             case GrandmaAnimationState.Idle:
                 OnIdleUpdate();
                 break;
             case GrandmaAnimationState.Charge:
                 OnChargeUpdate();
+                break;
+            case GrandmaAnimationState.Jump:
+                OnJumpUpdate();
+                break;
+            case GrandmaAnimationState.Hit:
+                OnHitUpdate();
                 break;
         }
 	}
