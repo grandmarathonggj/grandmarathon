@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GrandmaController : MonoBehaviour
 {
+    [HideInInspector]
+    public GrandmaSoundController sound;
 
     public GameObject objHeadBone;
     public GameObject objFrontBone;
@@ -64,6 +66,7 @@ public class GrandmaController : MonoBehaviour
 
     private void Awake()
     {
+        sound = GetComponent<GrandmaSoundController>();
         bones = new Dictionary<string, GrandmaBone>();
         bones.Add("Head", new GrandmaBone(objHeadBone));
         bones.Add("Front", new GrandmaBone(objFrontBone));
@@ -108,6 +111,9 @@ public class GrandmaController : MonoBehaviour
         bones["LeftLeg"].tranBone.localRotation = Quaternion.Lerp(bones["LeftLeg"].boneDefaultQuat, Quaternion.Euler(-37.303f, 84.735f, -130.79f), chargeAmount);
         bones["RightLeg"].tranBone.localPosition = Vector3.Lerp(bones["RightLeg"].boneDefaultPos, new Vector3(-0.2896f, 0, 0), chargeAmount);
         bones["RightLeg"].tranBone.localRotation = Quaternion.Lerp(bones["RightLeg"].boneDefaultQuat, Quaternion.Euler(-142.697f, -84.735f, 130.79f), chargeAmount);
+        if(sound != null){
+            sound.chargeAmount = this.chargeAmount;
+        }        
     }
 	
 	// Update is called once per frame

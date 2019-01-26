@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private AudioSource AS;
+    public AudioClip bouncySound;
 	private CircleRenderer circleIndicator;
 	private Vector3 _originalPos;
 	private Vector3 _mouseStartPos;
@@ -13,7 +15,7 @@ public class PlayerController : MonoBehaviour
 	private float _dragDistance;
 	private Vector3 _dragVector3;
 
-    public GrandmaController grandmaHerself;
+    private GrandmaController grandmaHerself;
 	private float _rotationSpeed = 10.0f;
  
 	private Quaternion _lookRotation;
@@ -26,6 +28,7 @@ public class PlayerController : MonoBehaviour
 		_originalPos = this.transform.position;
 		circleIndicator = transform.GetComponentInChildren<CircleRenderer>();
         grandmaHerself = transform.GetComponentInChildren<GrandmaController>();
+        AS = GetComponent<AudioSource>();
 	}
      
 	// Update is called once per frame
@@ -55,6 +58,7 @@ public class PlayerController : MonoBehaviour
 
         } else if(Input.GetMouseButtonUp(0)){
             GetComponent<CustomPhysics>().Push(_direction, _dragDistance);
+            AS.PlayOneShot(bouncySound);
         }else {
             grandmaHerself.chargeAmount = 0;
 //			Cursor.visible = true;
