@@ -46,7 +46,10 @@ public class PlayerController : MonoBehaviour
 			
 			Quaternion rotation = Quaternion.LookRotation(_direction, Vector3.up);
 			transform.rotation = rotation;
-		} else {
+
+        } else if(Input.GetMouseButtonUp(0)){
+            GetComponent<CustomPhysics>().Push(_direction, _dragDistance);
+        }else {
 //			Cursor.visible = true;
 			circleIndicator.Render(0.0f);
 		}

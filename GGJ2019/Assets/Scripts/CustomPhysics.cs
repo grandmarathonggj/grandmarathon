@@ -115,10 +115,7 @@ public class CustomPhysics : MonoBehaviour
             {
                 if (collided == false)
                 {
-                    this.target.position = new Vector3(hit.point.x, this.target.position.y, this.target.position.z);
-                    velocity = new Vector3(-velocity.x, velocity.y, -velocity.z);
-                    acceleration = new Vector3(-acceleration.x, acceleration.y, -acceleration.z);
-                    collided = true;
+                    OnWallHit(hit);
                 }
             }
         }
@@ -129,12 +126,23 @@ public class CustomPhysics : MonoBehaviour
         }
     }
 
-    //private void OnWallHit(RaycastHit hit)
-    //{
-    //    this.target.position = new Vector3(hit.point.x, this.target.position.y, this.target.position.z);
-    //    velocity = new Vector3(-velocity.x, velocity.y, velocity.z);
+    private void OnWallHit(RaycastHit hit)
+    {
+        Debug.Log(hit.normal);
+        this.target.position = new Vector3(hit.point.x, this.target.position.y, this.target.position.z);
 
-    //}
+        float newVx = Mathf.Approximately(hit.normal.x, 0) ? velocity.x : Mathf.Abs(velocity.x) * hit.normal.x;
+        float newVy = velocity.y;
+        float newVz = Mathf.Approximately(hit.normal.z, 0) ? velocity.z : Mathf.Abs(velocity.z) * hit.normal.z;
+
+        float newAx = Mathf.Approximately(hit.normal.x, 0) ? acceleration.x : Mathf.Abs(acceleration.x) * hit.normal.x;
+        float newAy = acceleration.y;
+        float newAz = Mathf.Approximately(hit.normal.z, 0) ? acceleration.z : Mathf.Abs(acceleration.z) * hit.normal.z;
+
+        velocity = new Vector3( newVx, newVy ,newVz);
+        acceleration = new Vector3(newAx, newAy, newAz);
+        collided = true;
+    }
 
 
     private void DetectFloor()
