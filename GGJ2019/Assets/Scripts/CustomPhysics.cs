@@ -7,13 +7,15 @@ public class CustomPhysics : MonoBehaviour
 {
 
     private Transform target;
+    private AudioSource AS;
+    public AudioClip bouncySound;
 
     public Vector3 MULTIPLIER = new Vector3(1f, 1f, 1f);
     public float GRAVITY = 0.3f;
     public float RESISTANCE = 0.3f;
 
-    public float MAX_AX = 15f;
-    public float MAX_AY = 2.5f;
+    public float MAX_AX = 10f;
+    public float MAX_AY = 1.5f;
 
     private Vector3 initAcceleration;
 
@@ -25,26 +27,18 @@ public class CustomPhysics : MonoBehaviour
     public bool grounded = false;
     public bool collided = false;
     public bool controllable = true;
-    private Vector3 dragAngle = new Vector3(0,0,0);
+    private Vector3 dragAngle = new Vector3(0, 0, 0);
     // Use this for initialization
     void Start()
     {
         this.target = gameObject.transform;
+        this.AS = GetComponent<AudioSource>();
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        //if (this.grounded == true && controllable == true)
-        //{
-        //    if (Input.GetMouseButtonDown(0))
-        //    {
-        //        this.Push(new Vector3(10, 2, 2));
-        //    }
-
-        //}
-
         if (this.grounded == false)
         {
             if (acceleration.y > -1f)
@@ -57,18 +51,23 @@ public class CustomPhysics : MonoBehaviour
             if ((velocity.x > 0 && dragAngle.x > 0) || (velocity.x < 0 && dragAngle.x < 0))
             {
                 acceleration = new Vector3(acceleration.x - RESISTANCE * dragAngle.x, acceleration.y, acceleration.z);
-            }else{
+            }
+            else
+            {
                 velocity = new Vector3(0, velocity.y, velocity.z);
-                acceleration =new Vector3(0, acceleration.y, acceleration.z);
+                acceleration = new Vector3(0, acceleration.y, acceleration.z);
             }
 
             if ((velocity.z > 0 && dragAngle.z > 0) || (velocity.z < 0 && dragAngle.z < 0))
             {
                 acceleration = new Vector3(acceleration.x, acceleration.y, acceleration.z - RESISTANCE * dragAngle.z);
-            }else{
+            }
+            else
+            {
                 velocity = new Vector3(velocity.x, velocity.y, 0);
                 acceleration = new Vector3(acceleration.x, acceleration.y, 0);
             }
+            DetectNoFloor();
         }
 
         this.velocity += new Vector3(acceleration.x * MULTIPLIER.x, acceleration.y * MULTIPLIER.y, acceleration.z * MULTIPLIER.z) * Time.deltaTime;
@@ -93,6 +92,7 @@ public class CustomPhysics : MonoBehaviour
         {
             DetectFloor();
         }
+
         //Debug.Log(this.velocity);
         DetectFront();
 
@@ -104,9 +104,9 @@ public class CustomPhysics : MonoBehaviour
     private void DetectFront()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position + new Vector3(0, 0.2f,0), transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
+            Debug.DrawRay(transform.position+ new Vector3(0, 0.2f, 0), transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
 
             float diffX = Mathf.Abs(hit.point.x - this.target.position.x);
             float diffZ = Mathf.Abs(hit.point.z - this.target.position.z);
@@ -128,7 +128,7 @@ public class CustomPhysics : MonoBehaviour
 
     private void OnWallHit(RaycastHit hit)
     {
-        Debug.Log(hit.normal);
+        GetComponent<VFXController>().TriggerCollide(hit.point);
         this.target.position = new Vector3(hit.point.x, this.target.position.y, this.target.position.z);
 
         float newVx = Mathf.Approximately(hit.normal.x, 0) ? velocity.x : Mathf.Abs(velocity.x) * hit.normal.x;
@@ -139,19 +139,33 @@ public class CustomPhysics : MonoBehaviour
         float newAy = acceleration.y;
         float newAz = Mathf.Approximately(hit.normal.z, 0) ? acceleration.z : Mathf.Abs(acceleration.z) * hit.normal.z;
 
-        velocity = new Vector3( newVx, newVy ,newVz);
+        velocity = new Vector3(newVx, newVy, newVz);
         acceleration = new Vector3(newAx, newAy, newAz);
         collided = true;
     }
 
 
+    private void DetectNoFloor()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + new Vector3(0, 0.01f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        {
+            Debug.DrawRay(transform.position + new Vector3(0,0.01f,0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+            grounded = false;
+        }
+    }
+
     private void DetectFloor()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position + new Vector3(0, 0.01f, 0), transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-            if (hit.point.y >= this.target.position.y + this.velocity.y)
+            Debug.DrawRay(transform.position + new Vector3(0, 0.01f, 0), transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+            if (hit.point.y >= this.target.position.y + this.velocity.y - 0.01f)
             {
                 OnFloorHit(hit);
             }
@@ -174,13 +188,20 @@ public class CustomPhysics : MonoBehaviour
 
     public void Push(Vector3 dragAngle, float dragDistance)
     {
+        if (dragDistance < 0.1f)
+        {
+            return;
+        }
+
+        AS.PlayOneShot(bouncySound);
+
         this.dragAngle = dragAngle;
-        float ax = Mathf.Lerp(0, MAX_AX, dragDistance) * dragAngle.x;
-        float ay = Mathf.Lerp(0, MAX_AY, dragDistance);
-        float az = Mathf.Lerp(0, MAX_AX, dragDistance) * dragAngle.z;
+        float ax = MAX_AX * dragDistance * dragAngle.x;
+        float ay = Mathf.Max(1.5f, MAX_AY * dragDistance);
+        float az = MAX_AX * dragDistance * dragAngle.z;
 
         Vector3 targetAcceleration = new Vector3(ax, ay, az);
-        Debug.Log("Push");
+        Debug.Log(targetAcceleration);
         this.grounded = false;
         this.velocity = new Vector3(targetAcceleration.x * MULTIPLIER.x, targetAcceleration.y * MULTIPLIER.y, targetAcceleration.z * MULTIPLIER.z) * Time.deltaTime;
         this.acceleration = new Vector3(0, targetAcceleration.y * MULTIPLIER.y, 0);
