@@ -1,80 +1,71 @@
 fileFormatVersion: 2
-guid: c596f384685d4d349b10af19ade2a635
+guid: df7a89c41a945bc49bbad38e26537303
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: Bone001
-    100002: Bone002
-    100004: Bone003
-    100006: Bone004
-    100008: Bone004(mirrored)
-    100010: Bone005
-    100012: Bone005(mirrored)
-    100014: Bone006
-    100016: Bone006(mirrored)
-    100018: Bone008
-    100020: Bone008(mirrored)
-    100022: Bone009
-    100024: Bone009(mirrored)
-    100026: Bone010
-    100028: Bone010(mirrored)
-    100030: Bone011
-    100032: Bone011(mirrored)
-    100034: Box001
-    100036: Box002
-    100038: Box004
-    100040: Box005
-    100042: Box006
-    100044: Box007
-    100046: //RootNode
-    400000: Bone001
-    400002: Bone002
-    400004: Bone003
-    400006: Bone004
-    400008: Bone004(mirrored)
-    400010: Bone005
-    400012: Bone005(mirrored)
-    400014: Bone006
-    400016: Bone006(mirrored)
-    400018: Bone008
-    400020: Bone008(mirrored)
-    400022: Bone009
-    400024: Bone009(mirrored)
-    400026: Bone010
-    400028: Bone010(mirrored)
-    400030: Bone011
-    400032: Bone011(mirrored)
-    400034: Box001
-    400036: Box002
-    400038: Box004
-    400040: Box005
-    400042: Box006
-    400044: Box007
-    400046: //RootNode
-    2100000: 'Material #2'
-    2100002: 'Material #3'
-    2100004: 'Material #4'
-    2100006: 'Material #7'
-    2100008: 'Material #5'
-    2100010: 'Material #6'
-    2300000: Box002
-    2300002: Box004
-    2300004: Box005
-    2300006: Box006
-    2300008: Box007
-    3300000: Box002
-    3300002: Box004
-    3300004: Box005
-    3300006: Box006
-    3300008: Box007
-    4300000: Box001
-    4300002: Box002
-    4300004: Box004
-    4300006: Box005
-    4300008: Box006
-    4300010: Box007
+    100000: //RootNode
+    100002: Bone023
+    100004: Bone024
+    100006: Bone025
+    100008: Bone026
+    100010: Bone027
+    100012: Bone028
+    100014: Bone029
+    100016: Bone030
+    100018: Bone031
+    100020: Bone032
+    100022: Bone033
+    100024: Bone034
+    100026: Bone035
+    100028: Bone036
+    100030: Bone037
+    100032: Bones
+    100034: Box009
+    100036: Box010
+    100038: Box011
+    100040: Box012
+    100042: Plane001
+    400000: //RootNode
+    400002: Bone023
+    400004: Bone024
+    400006: Bone025
+    400008: Bone026
+    400010: Bone027
+    400012: Bone028
+    400014: Bone029
+    400016: Bone030
+    400018: Bone031
+    400020: Bone032
+    400022: Bone033
+    400024: Bone034
+    400026: Bone035
+    400028: Bone036
+    400030: Bone037
+    400032: Bones
+    400034: Box009
+    400036: Box010
+    400038: Box011
+    400040: Box012
+    400042: Plane001
+    2100000: 'Material #13'
+    2100002: 'Material #15'
+    2100004: 'Material #16'
+    2100006: 'Material #14'
+    2300000: Box009
+    2300002: Box010
+    2300004: Box011
+    2300006: Box012
+    3300000: Box009
+    3300002: Box010
+    3300004: Box011
+    3300006: Box012
+    4300000: Plane001
+    4300002: Box012
+    4300004: Box011
+    4300006: Box010
+    4300008: Box009
     9500000: //RootNode
-    13700000: Box001
+    13700000: Plane001
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -130,7 +121,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2
