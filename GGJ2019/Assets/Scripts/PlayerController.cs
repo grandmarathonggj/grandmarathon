@@ -45,10 +45,9 @@ public class PlayerController : MonoBehaviour
 	private void OnMouseUp()
 	{
 		_direction = invertVector3Direction(swapYZ(_dragVector3));
-//		_targetPos = invertMouseToObjectDirection(swapYZ((_originalPos + _dragDistance)));
-//		_distance = Vector3.Distance(_targetPos, _originalPos);
-//		_eventStartTime = Time.time;
-		//Debug.Log(_targetPos);
+		_direction = _direction / 100f;
+
+		Debug.Log(_direction);
 		Cursor.visible = true;
 	}
 
