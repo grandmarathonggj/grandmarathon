@@ -68,7 +68,7 @@ public class Level : MonoBehaviour {
 	}
 
 	public void TriggerWinScene() {
-
+		Debug.Log("You WIN!");
 
 	}
 

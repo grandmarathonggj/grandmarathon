@@ -15,7 +15,7 @@ public class EndPoint : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter(Collider other) {
-		if (other.gameObject.name == "Player") {
+		if (other.gameObject.name == "Grandma") {
 			_level.TriggerWinScene();
 		}
 	}

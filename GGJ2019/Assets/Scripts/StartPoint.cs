@@ -16,7 +16,7 @@ public class StartPoint : MonoBehaviour {
 	}
 
 	private void OnTriggerExit(Collider other) {
-		if (other.gameObject.name == "Player") {
+		if (other.gameObject.name == "Grandma") {
 			EventManager.TriggerEvent(GameEvent.START_LEVEL_TIMER, null);
 		}
 	}
