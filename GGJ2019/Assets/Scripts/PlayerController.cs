@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 	private void OnMouseDrag()
 	{
 		_dragDistance = Vector3.Distance(Input.mousePosition, _mouseStartPos);
-		_dragDistance = Mathf.Clamp(_dragDistance, -100f, 100f);
+		_dragDistance = Mathf.Clamp(_dragDistance, 0f, 100f);
 		
 		_dragVector3 = Input.mousePosition - _mouseStartPos;
 		_dragVector3 = clampVector3(_dragVector3);
