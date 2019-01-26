@@ -239,6 +239,10 @@ public class CustomPhysics : MonoBehaviour
             RESISTANCE = 0.3f;
         }
 
+        if (block is BounceBlock)
+        {
+            Push(new Vector3(velocity.x * 5, 1, velocity.z* 5), 1);
+        }
     }
 
     public void Push(Vector3 dragAngle, float dragDistance)
