@@ -71,8 +71,9 @@ public class Level : MonoBehaviour
 
     void UpdateSkyColor(float timeInSeconds)
     {
-		float offset = 9f / 24f;
-        float angle = ((timeInSeconds / 86400f)) * 2 * Mathf.PI;
+		float offset = 6f / 24f;
+        float angle = ((timeInSeconds / 86400f) - offset) * 2 * Mathf.PI;
+		if (angle > 2 * Mathf.PI) angle -= 2 * Mathf.PI;
         float sin = Mathf.Sin(angle);
         if (Mathf.Abs(sin) < 0.5f)
         {
@@ -80,7 +81,7 @@ public class Level : MonoBehaviour
             float nightAlpha = 0.5f - sin;
             _nightMat.materials[0].color = new Color(1, 1, 1, nightAlpha);
         }
-        else if (-offset * 2 * Mathf.PI < angle && angle < Mathf.PI - offset * 2 * Mathf.PI) _nightMat.materials[0].color = new Color(1, 1, 1, 0);
+        else if (0 < angle && angle < Mathf.PI) _nightMat.materials[0].color = new Color(1, 1, 1, 0);
         else _nightMat.materials[0].color = new Color(1, 1, 1, 1);
     }
 
