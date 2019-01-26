@@ -10,7 +10,7 @@ public class GrandmaSoundController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		_audioSource = GetComponent<AudioSource>();
+		_audioSource = transform.Find("Audio").GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame

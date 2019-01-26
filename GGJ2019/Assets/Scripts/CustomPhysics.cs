@@ -32,7 +32,7 @@ public class CustomPhysics : MonoBehaviour
     void Start()
     {
         this.target = gameObject.transform;
-        this.AS = GetComponent<AudioSource>();
+        this.AS = transform.Find("AudioElastic").GetComponent<AudioSource>();
     }
 
 

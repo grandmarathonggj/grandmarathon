@@ -5,7 +5,7 @@ using UnityEngine;
 public class GrandmaController : MonoBehaviour
 {
     [HideInInspector]
-    public GrandmaSoundController sound;
+    public GrandmaElasticSoundController sound;
 
     public GameObject objHeadBone;
     public GameObject objFrontBone;
@@ -66,7 +66,7 @@ public class GrandmaController : MonoBehaviour
 
     private void Awake()
     {
-        sound = GetComponent<GrandmaSoundController>();
+        sound = GetComponent<GrandmaElasticSoundController>();
         bones = new Dictionary<string, GrandmaBone>();
         bones.Add("Head", new GrandmaBone(objHeadBone));
         bones.Add("Front", new GrandmaBone(objFrontBone));
