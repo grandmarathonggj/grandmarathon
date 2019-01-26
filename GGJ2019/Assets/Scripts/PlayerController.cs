@@ -6,23 +6,33 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	public CircleRenderer circleIndicator;
+	private CircleRenderer circleIndicator;
 	private Vector3 _originalPos;
 	private Vector3 _mouseStartPos;
 	private Vector3 _direction;
 	private float _dragDistance;
 	private Vector3 _dragVector3;
 	
+	private float _rotationSpeed = 10.0f;
+ 
+	private Quaternion _lookRotation;
+	
 	private void Start()
 	{
 		_originalPos = this.transform.position;
 		circleIndicator = transform.GetComponentInChildren<CircleRenderer>();
 	}
-
-	private void Update()
+     
+	// Update is called once per frame
+	void Update()
 	{
+		//create the rotation we need to be in to look at the target
+		_lookRotation = Quaternion.LookRotation(_direction);
+ 
+		//rotate us over time according to speed until we are in the required rotation
+		transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * _rotationSpeed);
 	}
-
+	
 	void OnMouseDown()
 	{
 		_dragDistance = 0.0f;
@@ -40,15 +50,14 @@ public class PlayerController : MonoBehaviour
 		_dragVector3 = Input.mousePosition - _mouseStartPos;
 		_dragVector3 = clampVector3(_dragVector3);
 		
+		_direction = invertVector3Direction(swapYZ(_dragVector3)).normalized;
+		
 		circleIndicator.Render(1 + _dragDistance / 100f);
 	}
 
 	private void OnMouseUp()
 	{
-		_direction = invertVector3Direction(swapYZ(_dragVector3));
-		_direction = _direction / 100f;
-
-		GetComponent<CustomPhysics>().Push(_direction, _dragDistance);
+//		GetComponent<CustomPhysics>().Push(_direction, _dragDistance);
 		Cursor.visible = true;
 	}
 
