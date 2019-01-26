@@ -137,7 +137,7 @@ public class Level : MonoBehaviour
 		else if (totalPoints > 15000f) {
 			stars = 1;
 		}
-		EventManager.TriggerEvent(GameEvent.LEVEL_COMPLETED, new LevelCompletedParams(false, timePoints, stars));
+		EventManager.TriggerEvent(GameEvent.LEVEL_COMPLETED, new LevelCompletedParams(true, timePoints, stars));
 	}
 
     public void TriggerRestartScene()
