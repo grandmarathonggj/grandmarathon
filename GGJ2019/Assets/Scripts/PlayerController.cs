@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	private CircleRenderer circleIndicator = new CircleRenderer();
+	public CircleRenderer circleIndicator;
 	private Vector3 _originalPos;
 	private Vector3 _mouseStartPos;
 	private Vector3 _direction;
@@ -15,6 +16,11 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
 		_originalPos = this.transform.position;
+		circleIndicator = transform.GetComponentInChildren<CircleRenderer>();
+	}
+
+	private void Update()
+	{
 	}
 
 	void OnMouseDown()
@@ -22,7 +28,7 @@ public class PlayerController : MonoBehaviour
 		_dragDistance = 0.0f;
 		_direction = new Vector3();
 		_mouseStartPos = Input.mousePosition;
-		circleIndicator.Render();
+		circleIndicator.Render( 1.0f );
 		Cursor.visible = false;
 	}
 
@@ -34,12 +40,7 @@ public class PlayerController : MonoBehaviour
 		_dragVector3 = Input.mousePosition - _mouseStartPos;
 		_dragVector3 = clampVector3(_dragVector3);
 		
-//		circleIndicator.Render();
-//		Vector3 offset = Input.mousePosition - _mouseStartPos;
-//		if (offset.x >= 5.0f) offset.x = 5.0f;
-//		if (offset.x <= -5.0f) offset.x = -5.0f;
-//		if (offset.y >= 5.0f) offset.y = 5.0f;
-//		if (offset.y <= -5.0f) offset.y = -5.0f;
+		circleIndicator.Render(1 + _dragDistance / 100f);
 	}
 
 	private void OnMouseUp()
@@ -47,7 +48,7 @@ public class PlayerController : MonoBehaviour
 		_direction = invertVector3Direction(swapYZ(_dragVector3));
 		_direction = _direction / 100f;
 
-		Debug.Log(_direction);
+		GetComponent<CustomPhysics>().Push(_direction, _dragDistance);
 		Cursor.visible = true;
 	}
 

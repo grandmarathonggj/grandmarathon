@@ -4,26 +4,27 @@ using System.Collections;
 [RequireComponent(typeof(LineRenderer))]
 public class CircleRenderer : MonoBehaviour {
 
-    private float radius = 1.0f;
-
-    private int numSegments = 360;
+    private int _numSegments = 20;
 
     void Start ( ) {
     }
 
-    public void Render ( ) {
+    private void Update()
+    {
+    }
+
+    public void Render (float radius) {
         LineRenderer lineRenderer = gameObject.GetComponent<LineRenderer>();
-        Color c1 = new Color(0.5f, 0.5f, 0.5f, 1);
-        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+        Color c1 = new Color(1.0f, 0f, 0f, 1);
         lineRenderer.SetColors(c1, c1);
-        lineRenderer.SetWidth(0.5f, 0.5f);
-        lineRenderer.SetVertexCount(numSegments + 1);
+        lineRenderer.SetWidth(0.05f, 0.05f);
+        lineRenderer.SetVertexCount(_numSegments + 1);
         lineRenderer.useWorldSpace = false;
 
-        float deltaTheta = (float) (2.0 * Mathf.PI) / numSegments;
+        float deltaTheta = (float) (2.0 * Mathf.PI) / _numSegments;
         float theta = 0f;
 
-        for (int i = 0 ; i < numSegments + 1 ; i++) {
+        for (int i = 0 ; i < _numSegments + 1 ; i++) {
             float x = radius * Mathf.Cos(theta);
             float z = radius * Mathf.Sin(theta);
             Vector3 pos = new Vector3(x, 0, z);
