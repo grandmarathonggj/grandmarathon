@@ -13,10 +13,11 @@ public class PlayerController : MonoBehaviour
 	private Vector3 _mouseStartPos;
 	private Vector3 _direction;
 	private float _dragDistance;
-	private float _circleRadius;
+	private float _normalizedDrag;
 	private Vector3 _dragVector3;
 
     private GrandmaController grandmaHerself;
+	private Transform _arrowContainer;
 	private float _rotationSpeed = 10.0f;
  
 	private Quaternion _lookRotation;
@@ -29,6 +30,9 @@ public class PlayerController : MonoBehaviour
 		_originalPos = this.transform.position;
 		circleIndicator = transform.GetComponentInChildren<CircleRenderer>();
         grandmaHerself = transform.GetComponentInChildren<GrandmaController>();
+		_arrowContainer = transform.Find("ArrowContainer");
+		_arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, 0.0f);
+		_arrowContainer.transform.localRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
         AS = GetComponent<AudioSource>();
 	}
      
@@ -40,8 +44,10 @@ public class PlayerController : MonoBehaviour
 			_dragDistance = 0.0f;
 			_direction = new Vector3();
 			_mouseStartPos = Input.mousePosition;
-			circleIndicator.Render( _circleRadius );
-//			Cursor.visible = false;
+			_normalizedDrag = 1.0f;
+			circleIndicator.Render( _normalizedDrag );
+			_arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+			Cursor.visible = false;
 		} else if (Input.GetMouseButton(0))
 		{
 			_dragDistance = Vector3.Distance(Input.mousePosition, _mouseStartPos);
@@ -51,20 +57,25 @@ public class PlayerController : MonoBehaviour
 			_dragVector3 = clampVector3(_dragVector3);
 			
 			_direction = Quaternion.Euler(Vector3.up * yRotation) * invertVector3Direction(swapYZ(_dragVector3)).normalized;
-			_circleRadius = Mathf.Lerp( _circleRadius, 1 + _dragDistance / 100f, 0.1f);
-
-			circleIndicator.Render( _circleRadius );
+			
+			_normalizedDrag = Mathf.Lerp( _normalizedDrag, 1 + _dragDistance / 100f, 0.1f);
+			circleIndicator.Render( _normalizedDrag );
+			
+			_arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, _normalizedDrag);
+			_arrowContainer.transform.localEulerAngles = new Vector3((1.0f - _normalizedDrag) * 30, 0.0f, 0.0f);
 			
 			Quaternion rotation = Quaternion.LookRotation(_direction, Vector3.up);
 			transform.rotation = rotation;
             grandmaHerself.chargeAmount = _dragDistance / 100f;
 
         } else if(Input.GetMouseButtonUp(0)){
+			_arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, 0.0f);
+			_arrowContainer.transform.localRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
             GetComponent<CustomPhysics>().Push(_direction, _dragDistance);
             AS.PlayOneShot(bouncySound);
         }else {
             grandmaHerself.chargeAmount = 0;
-//			Cursor.visible = true;
+			Cursor.visible = true;
 			circleIndicator.Render(0.0f);
 		}
 	}
