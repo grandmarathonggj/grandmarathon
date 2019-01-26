@@ -7,10 +7,12 @@ using UnityEngine.Serialization;
 
 public class Timer : MonoBehaviour
 {
-    public int currentTick = 0;
-    public bool continueTimer = true;
-    public int timeScale = 60;
-    public int tickLimit = 24;
+	public bool Loop;
+    public float currentTick;
+    public int timeScale;
+    public int tickLimit;
+	public int roundToNearest;
+    private bool continueTimer = false;
 
     // Use this for initialization
     void Start()
@@ -21,33 +23,26 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    }
+		if (Loop || continueTimer) {
+			currentTick += Time.deltaTime * timeScale;
+
+			EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_TICK, new TimerEventParams(Mathf.FloorToInt(currentTick  / roundToNearest) * roundToNearest));
+
+			if (currentTick > tickLimit) {
+				currentTick -= tickLimit;
+				continueTimer = false;
+				EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_END, new TimerEventParams(Mathf.FloorToInt(currentTick  / roundToNearest) * roundToNearest));
+			}
+		}
+	}
 
     void StartTimer(EventParam eventParam)
 
     {
         currentTick = 0;
-        StartCoroutine(_coTimer());
-    }
+		continueTimer = true;
 
-    private IEnumerator _coTimer()
-    {
-        while (continueTimer)
-        {
-            yield return new WaitForSeconds(1);
-            currentTick++;
-
-            EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_TICK, new TimerEventParams(currentTick * timeScale));
-
-            if (currentTick > tickLimit)
-            {
-                continueTimer = false;
-                EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_END, new TimerEventParams(currentTick * timeScale));
-
-                
-            }
-        }
-    }
+	}
 }
 
 

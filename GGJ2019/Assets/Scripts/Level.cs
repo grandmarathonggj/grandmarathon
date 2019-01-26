@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,10 +23,7 @@ public class Level : MonoBehaviour {
 	private MeshRenderer _dayMat;
 	private MeshRenderer _nightMat;
 
-	private float _time;
-
 	void Start () {
-		_time = 0;
 		//_canvas = GameObject.Find("Canvas");
 		//_startPosition = transform.Find("StartPosition").gameObject;
 		//_endPosition = transform.Find("EndPosition").gameObject;
@@ -44,17 +43,20 @@ public class Level : MonoBehaviour {
 
 		_dayMat = GameObject.Find("SkyCamera/Plane").GetComponent<MeshRenderer>();
 		_nightMat = GameObject.Find("SkyCamera/Plane2").GetComponent<MeshRenderer>();
-
+		
+		EventManager.StartListening(GameEvent.LEVEL_TIMER_TICK,
+			new Action<EventParam>(delegate (EventParam param) {
+				var timeInSecond = ((TimerEventParams)param).currentTime;
+				UpdateSkyColor(timeInSecond);
+			}));
 	}
 	
 	void Update () {
-		_time += Time.deltaTime;
-		if (_time >= 24) _time -= 24;
-		UpdateSkyColor();
+		
 	}
 
-	void UpdateSkyColor() {
-		float angle = (_time / 24) * 2 * Mathf.PI;
+	void UpdateSkyColor(float timeInSeconds) {
+		float angle = (timeInSeconds / 86400) * 2 * Mathf.PI;
 		float sin = Mathf.Sin(angle);
 		if (Mathf.Abs(sin) < 0.5f) {
 			float dayAlpha = 0.5f + sin;
