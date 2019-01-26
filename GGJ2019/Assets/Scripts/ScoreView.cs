@@ -24,11 +24,11 @@ public class ScoreView : MonoBehaviour
 
             if (success)
             {
-                GetComponent<Button>().transform.GetComponentInChildren<Text>().text = "Next level";
+                GetComponentInChildren<Button>().transform.GetComponentInChildren<Text>().text = "Next level";
             }
             else
             {
-                GetComponent<Button>().transform.GetComponentInChildren<Text>().text = "Retry";
+                GetComponentInChildren<Button>().transform.GetComponentInChildren<Text>().text = "Retry";
             }
         }));
     }
