@@ -6,14 +6,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private AudioSource AS;
+    public AudioClip bouncySound;
 	private CircleRenderer circleIndicator;
 	private Vector3 _originalPos;
 	private Vector3 _mouseStartPos;
 	private Vector3 _direction;
 	private float _dragDistance;
+	private float _circleRadius;
 	private Vector3 _dragVector3;
 
-    public GrandmaController grandmaHerself;
+    private GrandmaController grandmaHerself;
 	private float _rotationSpeed = 10.0f;
  
 	private Quaternion _lookRotation;
@@ -26,6 +29,7 @@ public class PlayerController : MonoBehaviour
 		_originalPos = this.transform.position;
 		circleIndicator = transform.GetComponentInChildren<CircleRenderer>();
         grandmaHerself = transform.GetComponentInChildren<GrandmaController>();
+        AS = GetComponent<AudioSource>();
 	}
      
 	// Update is called once per frame
@@ -36,7 +40,7 @@ public class PlayerController : MonoBehaviour
 			_dragDistance = 0.0f;
 			_direction = new Vector3();
 			_mouseStartPos = Input.mousePosition;
-			circleIndicator.Render( 1.0f );
+			circleIndicator.Render( _circleRadius );
 //			Cursor.visible = false;
 		} else if (Input.GetMouseButton(0))
 		{
@@ -47,7 +51,9 @@ public class PlayerController : MonoBehaviour
 			_dragVector3 = clampVector3(_dragVector3);
 			
 			_direction = Quaternion.Euler(Vector3.up * yRotation) * invertVector3Direction(swapYZ(_dragVector3)).normalized;
-			circleIndicator.Render(1 + _dragDistance / 100f);
+			_circleRadius = Mathf.Lerp( _circleRadius, 1 + _dragDistance / 100f, 0.1f);
+
+			circleIndicator.Render( _circleRadius );
 			
 			Quaternion rotation = Quaternion.LookRotation(_direction, Vector3.up);
 			transform.rotation = rotation;
@@ -55,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
         } else if(Input.GetMouseButtonUp(0)){
             GetComponent<CustomPhysics>().Push(_direction, _dragDistance);
+            AS.PlayOneShot(bouncySound);
         }else {
             grandmaHerself.chargeAmount = 0;
 //			Cursor.visible = true;

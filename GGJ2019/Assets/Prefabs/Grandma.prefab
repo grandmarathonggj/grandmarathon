@@ -299,6 +299,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4162817511229366}
   - component: {fileID: 114602092470781506}
+  - component: {fileID: 114952162744444866}
+  - component: {fileID: 82907803172711650}
   m_Layer: 0
   m_Name: Grandma
   m_TagString: Untagged
@@ -1182,6 +1184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab9a248f827049f2b3b1277f839af90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bouncySound: {fileID: 8300000, guid: 51afa5ec5dbc54e438c5e66499fd0e41, type: 3}
   MULTIPLIER: {x: 1, y: 1, z: 0.78}
   GRAVITY: 0.3
   RESISTANCE: 0.3
@@ -1201,6 +1204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0670a0424cc67bd478b81689df579824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 0}
   objHeadBone: {fileID: 1754869121534970}
   objFrontBone: {fileID: 1613320766094802}
   objBackBone: {fileID: 1536369511022168}
