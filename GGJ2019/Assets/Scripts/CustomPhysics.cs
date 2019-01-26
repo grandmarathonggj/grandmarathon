@@ -23,7 +23,7 @@ public class CustomPhysics : MonoBehaviour
     Vector3 acceleration = new Vector3(0, -1f, 0);
 
 
-    private bool grounded = false;
+    public bool grounded = false;
     private bool controllable = true;
 
     // Use this for initialization
@@ -58,7 +58,11 @@ public class CustomPhysics : MonoBehaviour
             }
         }
         this.velocity += new Vector3(acceleration.x * MULTIPLIER.x, acceleration.y * MULTIPLIER.y, acceleration.z * MULTIPLIER.z) * Time.deltaTime;
-        this.velocity = new Vector3(Mathf.Max(this.velocity.x, 0),this.velocity.y , this.velocity.z);
+        float magnitute = Mathf.Max(this.velocity.x, 0);
+        float vx = magnitute * Mathf.Cos(transform.eulerAngles.y - 90);
+        float vz = magnitute * Mathf.Sin(transform.eulerAngles.y - 90);
+
+        this.velocity = new Vector3(vx, this.velocity.y, vz);
        
         if(velocity == Vector3.zero){
             controllable = true;
@@ -70,17 +74,39 @@ public class CustomPhysics : MonoBehaviour
             DetectFloor();
         }
         //Debug.Log(this.velocity);
+
+        DetectFront();
         this.target.position += velocity;
     }
 
 
-    public float getResistance(float velocityx){
-        return 0;
+    private void DetectFront()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.green);
+            if (this.velocity.x < 0)
+            {
+                if (hit.point.x <= this.target.position.x + this.velocity.x)
+                {
+                    OnWallHit(hit);
+                }
+            }
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            Debug.Log("Did not Hit");
+        }
     }
 
-    private void Grounding(){
-        
+    private void OnWallHit(RaycastHit hit)
+    {
+        this.target.position = new Vector3(hit.point.x, this.target.position.y, this.target.position.z);
+        velocity = new Vector3(-velocity.x, velocity.y, velocity.z);
     }
+
 
     private void DetectFloor(){
         RaycastHit hit;
@@ -111,6 +137,8 @@ public class CustomPhysics : MonoBehaviour
         float ax = Mathf.Lerp(0, MAX_AX, dragDistance);
         float ay = Mathf.Lerp(0, MAX_AY, dragDistance);
         float az = 0;
+
+
 
         Vector3 targetAcceleration = new Vector3(ax, ay, az);
         Debug.Log("Push");
