@@ -120,7 +120,7 @@ public class CustomPhysics : MonoBehaviour
                     Mathf.Abs(this.velocity.z) > Mathf.Abs(diffZ)
                 ))
                 {
-                    Debug.Break();
+                   
         
                     OnWallHit(hit);
                 }
@@ -238,6 +238,7 @@ public class CustomPhysics : MonoBehaviour
         {
             RESISTANCE = 0.3f;
         }
+
     }
 
     public void Push(Vector3 dragAngle, float dragDistance)
