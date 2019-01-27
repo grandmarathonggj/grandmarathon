@@ -32,7 +32,7 @@ public class Level : MonoBehaviour
     void Awake()
     {
         mainCamera = Camera.main;
-        
+
         _timer = GetComponent<Timer>();
         //_canvas = GameObject.Find("Canvas");
         _startPosition = transform.Find("StartPosition").gameObject;
@@ -74,10 +74,7 @@ public class Level : MonoBehaviour
             new Action<EventParam>(delegate(EventParam param) { _starCount++; }));
 
         EventManager.StartListening(GameEvent.NEXT_LEVEL,
-            new Action<EventParam>(delegate(EventParam param)
-            {
-                //TODO: handle next level   
-            }));
+            new Action<EventParam>(delegate(EventParam param) { TriggerNextScene(); }));
         EventManager.StartListening(GameEvent.RETRY_LEVEL,
             new Action<EventParam>(delegate(EventParam param) { TriggerRestartScene(); }));
         EventManager.StartListening(GameEvent.LEVEL_TIMER_END,
@@ -135,7 +132,7 @@ public class Level : MonoBehaviour
         GameObject.FindObjectOfType<PlayerController>().enabled = false;
         celebrationPrefab.GetComponent<Animator>().SetTrigger("Win");
         float timeElasped = _timer.currentTick - _timer.startTimeOffset;
-        int timePoints = Mathf.RoundToInt(50000f - timeElasped);
+        int timePoints = Mathf.RoundToInt(50000f - timeElasped) + 10000;
 //		int stars = 0;
 //		int totalPoints = timePoints;
 //		if (totalPoints > 40000f) {
@@ -153,5 +150,10 @@ public class Level : MonoBehaviour
     public void TriggerRestartScene()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void TriggerNextScene()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
