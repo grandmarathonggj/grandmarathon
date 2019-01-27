@@ -67,7 +67,6 @@ public class Level : MonoBehaviour
                 UpdateSkyColor(timeInSecond);
             }));
 
-        EventManager.TriggerEvent(GameEvent.START_LEVEL_TIMER, null);
         EventManager.StartListening(GameEvent.PLAYER_DEATH,
             new Action<EventParam>(delegate(EventParam param) { StartCoroutine(PlayerDeath()); }));
         EventManager.StartListening(GameEvent.PICKUP,
