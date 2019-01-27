@@ -225,6 +225,7 @@ public class CustomPhysics : MonoBehaviour
         IBlock block = (IBlock)hit.collider.gameObject.GetComponents(typeof(IBlock))[0];
 
         this.grounded = true;
+        GetComponent<GrandmaSoundController>().PlayHmm();
         GetComponent<VFXController>().TriggerLanding(transform.position);
         grandmaHerself.animationState = GrandmaController.GrandmaAnimationState.Idle;
         this.target.position = new Vector3(this.target.position.x, hit.point.y, this.target.position.z);
