@@ -13,18 +13,19 @@ public class Timer : MonoBehaviour
     public int timeScale;
     public int tickLimit;
 	public int roundToNearest;
+	private bool started = false;
     private bool continueTimer = false;
 
     // Use this for initialization
     void Start()
     {
-        EventManager.StartListening(GameEvent.START_LEVEL_TIMER, new Action<EventParam>(StartTimer));
+		EventManager.StartListening(GameEvent.START_LEVEL_TIMER, new Action<EventParam>(StartTimer));
     }
 
     // Update is called once per frame
     void Update()
     {
-		if (Loop || continueTimer) {
+		if (started && (Loop || continueTimer)) {
 			currentTick += Time.deltaTime * timeScale;
 
 			EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_TICK, new TimerEventParams(Mathf.FloorToInt(currentTick  / roundToNearest) * roundToNearest));
@@ -40,6 +41,7 @@ public class Timer : MonoBehaviour
     void StartTimer(EventParam eventParam)
 
     {
+		started = true;
         currentTick = startTimeOffset;
 		continueTimer = true;
 
