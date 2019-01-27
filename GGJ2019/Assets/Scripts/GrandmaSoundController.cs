@@ -5,6 +5,7 @@ using UnityEngine;
 public class GrandmaSoundController : MonoBehaviour {
 
 	public AudioClip[] GruntSounds;
+    public AudioClip hmmSound;
 	public AudioClip DeathSound;
 	private AudioSource _audioSource;
 
@@ -20,13 +21,25 @@ public class GrandmaSoundController : MonoBehaviour {
 
 	public void PlayRandomGrunt() {
 		int i = Random.Range(0, GruntSounds.Length);
+        _audioSource.pitch = 1;
+        _audioSource.volume = 1f;
 		_audioSource.clip = GruntSounds[i];
 		_audioSource.loop = false;
 		_audioSource.Play();
 	}
 
+    public void PlayHmm()
+    {
+        _audioSource.clip = hmmSound;
+        _audioSource.pitch = 0.75f;
+        _audioSource.volume = 2f;
+        _audioSource.loop = false;
+        _audioSource.Play();
+    }
 	public void PlayDeath() {
 		_audioSource.clip = DeathSound;
+        _audioSource.pitch = 1;
+        _audioSource.volume = 1f;
 		_audioSource.loop = false;
 		_audioSource.Play();
 	}

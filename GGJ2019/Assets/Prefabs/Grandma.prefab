@@ -731,8 +731,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1854373100099228}
-  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0.00000028088027}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalRotation: {x: -0, y: 0.00000028088027, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4697979128469762}
@@ -1565,6 +1565,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 36162a0756f90a84c860f39654ab0b5d, type: 3}
   - {fileID: 8300000, guid: 44582f1a13327f146890c2606dbab87d, type: 3}
   - {fileID: 8300000, guid: 3b8fa57dd756fe942a482bb6829131a6, type: 3}
+  hmmSound: {fileID: 8300000, guid: 62b4919be091546bcb5175a4f10f8f86, type: 3}
   DeathSound: {fileID: 8300000, guid: cbca97cf06e4afb4eb8b1af7f9016de3, type: 3}
 --- !u!120 &120900011598955660
 LineRenderer:
