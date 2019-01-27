@@ -70,8 +70,7 @@ public class PlayerController : MonoBehaviour
                 Quaternion rotation = Quaternion.LookRotation(_direction, Vector3.up);
                 transform.rotation = rotation;
                 grandmaHerself.chargeAmount = _dragDistance / 100f;
-
-
+                grandmaHerself.animationState = GrandmaController.GrandmaAnimationState.Charge;
             }
             else if (Input.GetMouseButtonUp(0))
             {

@@ -6986,6 +6986,7 @@ MonoBehaviour:
   StartPrefab: {fileID: 207869538}
   EndPrefab: {fileID: 2022648909}
   HudPrefab: {fileID: 0}
+  mainCamera: {fileID: 0}
 --- !u!4 &836213735
 Transform:
   m_ObjectHideFlags: 0
@@ -10285,7 +10286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69af71f0938e453091abf3661c2ca45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  endPoint: {fileID: 2022648911}
+  target: {fileID: 2022648910}
   smoothTime: 0
 --- !u!1 &1135388382
 GameObject:

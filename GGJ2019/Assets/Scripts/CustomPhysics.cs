@@ -7,6 +7,7 @@ public class CustomPhysics : MonoBehaviour
 {
 
     private Transform target;
+    private GrandmaController grandmaHerself;
     private AudioSource AS;
     public AudioClip bouncySound;
 
@@ -33,6 +34,7 @@ public class CustomPhysics : MonoBehaviour
     {
         this.target = gameObject.transform;
         this.AS = GetComponent<AudioSource>();
+        this.grandmaHerself = transform.Find("Grandma").GetComponent<GrandmaController>();
     }
 
 
@@ -120,8 +122,6 @@ public class CustomPhysics : MonoBehaviour
                     Mathf.Abs(this.velocity.z) > Mathf.Abs(diffZ)
                 ))
                 {
-                   
-        
                     OnWallHit(hit);
                 }
 
@@ -166,6 +166,7 @@ public class CustomPhysics : MonoBehaviour
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
             grounded = false;
+            grandmaHerself.animationState = GrandmaController.GrandmaAnimationState.Jump;
         }
     }
 
@@ -225,6 +226,7 @@ public class CustomPhysics : MonoBehaviour
         IBlock block = (IBlock)hit.collider.gameObject.GetComponents(typeof(IBlock))[0];
 
         this.grounded = true;
+        grandmaHerself.animationState = GrandmaController.GrandmaAnimationState.Idle;
         this.target.position = new Vector3(this.target.position.x, hit.point.y, this.target.position.z);
         velocity = new Vector3(velocity.x, 0, velocity.z);
         acceleration = Vector3.zero;
@@ -263,6 +265,7 @@ public class CustomPhysics : MonoBehaviour
 
         Vector3 targetAcceleration = new Vector3(ax, ay, az);
         this.grounded = false;
+        grandmaHerself.animationState = GrandmaController.GrandmaAnimationState.Jump;
         this.velocity = new Vector3(targetAcceleration.x * MULTIPLIER.x, targetAcceleration.y * MULTIPLIER.y, targetAcceleration.z * MULTIPLIER.z) * Time.deltaTime;
         this.acceleration = new Vector3(0, targetAcceleration.y * MULTIPLIER.y, 0);
         StartCoroutine(disableCollideOneSecond());
