@@ -5,6 +5,7 @@ using UnityEngine;
 public class VFXController : MonoBehaviour {
 
     public GameObject collidingVFX;
+    public GameObject starCollectVFX;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +20,12 @@ public class VFXController : MonoBehaviour {
 
     public void TriggerCollide(Vector3 location){
         GameObject particle = ((GameObject)Instantiate(collidingVFX));
+        particle.transform.position = location;
+    }
+
+    public void TriggerStar(Vector3 location)
+    {
+        GameObject particle = ((GameObject)Instantiate(starCollectVFX));
         particle.transform.position = location;
     }
 }
