@@ -6,6 +6,8 @@ public class VFXController : MonoBehaviour {
 
     public GameObject collidingVFX;
     public GameObject starCollectVFX;
+    public GameObject landingVFX;
+
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +28,12 @@ public class VFXController : MonoBehaviour {
     public void TriggerStar(Vector3 location)
     {
         GameObject particle = ((GameObject)Instantiate(starCollectVFX));
+        particle.transform.position = location;
+    }
+
+    public void TriggerLanding(Vector3 location)
+    {
+        GameObject particle = ((GameObject)Instantiate(landingVFX));
         particle.transform.position = location;
     }
 }
