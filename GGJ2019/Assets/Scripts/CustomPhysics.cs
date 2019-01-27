@@ -107,9 +107,9 @@ public class CustomPhysics : MonoBehaviour
         if (Mathf.Approximately(transform.rotation.x, 0) && Mathf.Approximately(transform.rotation.z, 0))
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position + new Vector3(0, 0.1f, 0), transform.TransformDirection(new Vector3(velocity.x, 0 , velocity.z).normalized), out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            if (Physics.Raycast(transform.position + new Vector3(0, 0.1f, 0), new Vector3(velocity.x, 0 , velocity.z).normalized, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
-                Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), transform.TransformDirection(new Vector3(velocity.x, 0, velocity.z).normalized) * hit.distance, Color.red);
+                Debug.DrawRay(transform.position + new Vector3(0, 0.1f, 0), new Vector3(velocity.x, 0, velocity.z).normalized * hit.distance, Color.red);
 
                 float diffX = hit.point.x - this.target.position.x;
                 float diffZ = hit.point.z - this.target.position.z;
@@ -128,8 +128,7 @@ public class CustomPhysics : MonoBehaviour
             }
             else
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(new Vector3(velocity.x, 0, velocity.z)) * 1000, Color.white);
-
+                //Debug.DrawRay(transform.position, new Vector3(velocity.x, 0, velocity.z) * 1000, Color.red);
             }
         }
     }
@@ -269,7 +268,6 @@ public class CustomPhysics : MonoBehaviour
         grandmaHerself.animationState = GrandmaController.GrandmaAnimationState.Jump;
         this.velocity = new Vector3(targetAcceleration.x * MULTIPLIER.x, targetAcceleration.y * MULTIPLIER.y, targetAcceleration.z * MULTIPLIER.z) * Time.deltaTime;
         this.acceleration = new Vector3(0, targetAcceleration.y * MULTIPLIER.y, 0);
-        StartCoroutine(disableCollideOneSecond());
     }
 
 
