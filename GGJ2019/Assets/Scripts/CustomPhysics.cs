@@ -13,7 +13,7 @@ public class CustomPhysics : MonoBehaviour
 
     public Vector3 MULTIPLIER = new Vector3(1f, 1f, 1f);
     public float GRAVITY = 0.3f;
-    public float RESISTANCE = 0.3f;
+    public float RESISTANCE = 0.3f ;
 
     public float MAX_AX = 10f;
     public float MAX_AY = 1.5f;
@@ -45,14 +45,14 @@ public class CustomPhysics : MonoBehaviour
         {
             if (acceleration.y > -1f)
             {
-                acceleration = new Vector3(acceleration.x, Mathf.Max(acceleration.y - GRAVITY, -1), acceleration.z);
+                acceleration = new Vector3(acceleration.x, Mathf.Max(acceleration.y - GRAVITY * 60 * Time.deltaTime, -1), acceleration.z);
             }
         }
         else
         {
             if ((velocity.x > 0 && dragAngle.x > 0) || (velocity.x < 0 && dragAngle.x < 0))
             {
-                acceleration = new Vector3(acceleration.x - RESISTANCE * dragAngle.x, acceleration.y, acceleration.z);
+                acceleration = new Vector3(acceleration.x - RESISTANCE * dragAngle.x * 60 * Time.deltaTime, acceleration.y, acceleration.z);
             }
             else
             {
@@ -62,7 +62,7 @@ public class CustomPhysics : MonoBehaviour
 
             if ((velocity.z > 0 && dragAngle.z > 0) || (velocity.z < 0 && dragAngle.z < 0))
             {
-                acceleration = new Vector3(acceleration.x, acceleration.y, acceleration.z - RESISTANCE * dragAngle.z);
+                acceleration = new Vector3(acceleration.x, acceleration.y, acceleration.z - RESISTANCE * 60 * dragAngle.z * Time.deltaTime);
             }
             else
             {

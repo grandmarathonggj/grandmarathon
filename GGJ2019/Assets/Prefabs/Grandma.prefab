@@ -821,7 +821,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1971954947646212}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4522812294527694}
@@ -1482,7 +1482,7 @@ MonoBehaviour:
   GRAVITY: 0.3
   RESISTANCE: 0.3
   MAX_AX: 13
-  MAX_AY: 2.5
+  MAX_AY: 3
   velocity: {x: 0, y: 0, z: 0}
   acceleration: {x: 0, y: -1, z: 0}
   grounded: 0
@@ -1581,7 +1581,7 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 6776dbcbef2a54dfdb2bf346857a4c13, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
