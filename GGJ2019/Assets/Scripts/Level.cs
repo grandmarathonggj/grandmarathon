@@ -28,6 +28,7 @@ public class Level : MonoBehaviour
     private int _starCount;
 
     public Camera mainCamera;
+    private int timePoints;
 
     void Awake()
     {
@@ -85,6 +86,12 @@ public class Level : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            TriggerNextScene();
+        }
+
+        
     }
 
     public IEnumerator PlayerDeath()
@@ -131,7 +138,8 @@ public class Level : MonoBehaviour
         GameObject.FindObjectOfType<PlayerController>().enabled = false;
         celebrationPrefab.GetComponent<Animator>().SetTrigger("Win");
         float timeElasped = _timer.currentTick - _timer.startTimeOffset;
-        int timePoints = Mathf.RoundToInt(50000f - timeElasped) + 10000;
+        
+         timePoints = Mathf.RoundToInt(50000f - timeElasped) + 10000;
 //		int stars = 0;
 //		int totalPoints = timePoints;
 //		if (totalPoints > 40000f) {
@@ -143,6 +151,12 @@ public class Level : MonoBehaviour
 //		else if (totalPoints > 15000f) {
 //			stars = 1;
 //		}
+        Invoke("DelayedComplete",5);
+        
+    }
+
+    private void DelayedComplete()
+    {
         EventManager.TriggerEvent(GameEvent.LEVEL_COMPLETED, new LevelCompletedParams(true, timePoints, _starCount));
     }
 
