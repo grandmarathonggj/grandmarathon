@@ -33,7 +33,7 @@ public class Timer : MonoBehaviour
 			if (currentTick > tickLimit + startTimeOffset) {
 				currentTick -= tickLimit;
 				continueTimer = false;
-				EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_END, new TimerEventParams(Mathf.FloorToInt(currentTick  / roundToNearest) * roundToNearest));
+				if (!Loop) EventManager.TriggerEvent(GameEvent.LEVEL_TIMER_END, new TimerEventParams(Mathf.FloorToInt(currentTick  / roundToNearest) * roundToNearest));
 			}
 		}
 	}
