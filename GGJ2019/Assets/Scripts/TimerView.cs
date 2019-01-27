@@ -13,7 +13,8 @@ public class TimerView : MonoBehaviour
 	void Start()
     {
         timerText = GetComponent<Text>();
-		timerText.text = string.Format("{0:hh:mm:ss tt}", new DateTime(2019, 01, 01));
+		TimeSpan offset = TimeSpan.FromSeconds(32400);
+		timerText.text = string.Format("{0:hh:mm:ss tt}", new DateTime(2019, 01, 01) + offset);
 
 		EventManager.StartListening(GameEvent.LEVEL_TIMER_TICK,
             new Action<EventParam>(delegate(EventParam param)
