@@ -89,7 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DisplayName: Pixels
   m_Id: 19404b46-bdbc-43ac-aac8-f27448cd522f
-  m_OutputSize: 0
+  m_OutputSize: 1080
   m_AspectRatio: 0
   m_ForceEvenSize: 1
 --- !u!114 &114325752353171172
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_DurationMode: 0
   m_SynchFrameRate: 1
   m_BaseFileName:
-    m_Pattern: <scn>-<dt>.<ext>
+    m_Pattern: <scn>-<dt>.<ext>.<00000>
   m_DestinationPath:
     m_root: 1
     m_leaf: Recordings

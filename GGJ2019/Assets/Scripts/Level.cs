@@ -93,7 +93,7 @@ public class Level : MonoBehaviour
         //After animation:
         Debug.Log("Player died");
         _playerGO.GetComponent<GrandmaSoundController>().PlayDeath();
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(2);
         TriggerRestartScene();
     }
 
