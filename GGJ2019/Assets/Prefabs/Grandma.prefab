@@ -1482,7 +1482,7 @@ MonoBehaviour:
   GRAVITY: 0.3
   RESISTANCE: 0.3
   MAX_AX: 13
-  MAX_AY: 2.5
+  MAX_AY: 3
   velocity: {x: 0, y: 0, z: 0}
   acceleration: {x: 0, y: -1, z: 0}
   grounded: 0
