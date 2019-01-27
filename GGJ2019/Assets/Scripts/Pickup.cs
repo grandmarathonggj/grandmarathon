@@ -25,6 +25,7 @@ public class Pickup : MonoBehaviour
         {
             Debug.Log("Do pickup");
             EventManager.TriggerEvent(GameEvent.PICKUP, new EventParam());
+            other.gameObject.GetComponent<VFXController>().TriggerStar(transform.position);
             transform.gameObject.SetActive(false);
             var hudAudio = GameObject.Find("HUD").GetComponent<AudioSource>();
             
