@@ -132,7 +132,7 @@ public class Level : MonoBehaviour
         GameObject.FindObjectOfType<PlayerController>().enabled = false;
         celebrationPrefab.GetComponent<Animator>().SetTrigger("Win");
         float timeElasped = _timer.currentTick - _timer.startTimeOffset;
-        int timePoints = Mathf.RoundToInt(50000f - timeElasped);
+        int timePoints = Mathf.RoundToInt(50000f - timeElasped) + 10000;
 //		int stars = 0;
 //		int totalPoints = timePoints;
 //		if (totalPoints > 40000f) {
