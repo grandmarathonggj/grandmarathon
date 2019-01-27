@@ -20,7 +20,7 @@ public class StarView : MonoBehaviour
 
         if (count == 0)
         {
-            text.text = "FAILED...";
+            text.text = "0 star";
             
         }
     }
