@@ -194,10 +194,7 @@ public class GrandmaController : MonoBehaviour
         bones["LeftLeg"].tranBone.localPosition = Vector3.Lerp(bones["LeftLeg"].boneDefaultPos, new Vector3(-0.2896f, 0, 0), chargeAmount);
         bones["LeftLeg"].tranBone.localRotation = Quaternion.Lerp(bones["LeftLeg"].boneDefaultQuat, Quaternion.Euler(-37.303f, 84.735f, -130.79f), chargeAmount);
         bones["RightLeg"].tranBone.localPosition = Vector3.Lerp(bones["RightLeg"].boneDefaultPos, new Vector3(-0.2896f, 0, 0), chargeAmount);
-        bones["RightLeg"].tranBone.localRotation = Quaternion.Lerp(bones["RightLeg"].boneDefaultQuat, Quaternion.Euler(-142.697f, -84.735f, 130.79f), chargeAmount);
-        if(sound != null){
-            sound.chargeAmount = this.chargeAmount;
-        }        
+        bones["RightLeg"].tranBone.localRotation = Quaternion.Lerp(bones["RightLeg"].boneDefaultQuat, Quaternion.Euler(-142.697f, -84.735f, 130.79f), chargeAmount);     
     }
 	
     private void OnJumpUpdate()
@@ -217,6 +214,11 @@ public class GrandmaController : MonoBehaviour
             animationState = GrandmaAnimationState.Idle;
         if (Input.GetKeyDown(KeyCode.RightArrow))
             animationState = GrandmaAnimationState.Jump;
+
+
+        if(sound != null){
+            sound.chargeAmount = this.chargeAmount;
+        }   
 
         switch (animationState)
         {

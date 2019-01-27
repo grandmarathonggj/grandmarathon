@@ -1464,6 +1464,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collidingVFX: {fileID: 100004, guid: f95ff734540a0d749be6571b6cb5b37f, type: 2}
+  starCollectVFX: {fileID: 100006, guid: 8fc06027b01064e4f885fd8dd2929310, type: 2}
+  landingVFX: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 2}
 --- !u!114 &114067003545422392
 MonoBehaviour:
   m_ObjectHideFlags: 1

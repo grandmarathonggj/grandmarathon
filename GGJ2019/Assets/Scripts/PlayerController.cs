@@ -87,6 +87,13 @@ public class PlayerController : MonoBehaviour
         }else{
             if (Input.GetMouseButtonDown(0))
             {
+                _dragDistance = 0.0f;
+                _direction = new Vector3();
+                _mouseStartPos = Input.mousePosition;
+                _normalizedDrag = 1.0f;
+                circleIndicator.Render(_normalizedDrag);
+                _arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                Cursor.visible = false;
             }
             else if (Input.GetMouseButton(0))
             {
