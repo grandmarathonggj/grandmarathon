@@ -194,7 +194,7 @@ public class Level : MonoBehaviour
         Time.timeScale = 1;
         if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
         {
-            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 
@@ -203,7 +203,7 @@ public class Level : MonoBehaviour
         Time.timeScale = 1;
         if (SceneManager.GetActiveScene().buildIndex - 1 >= 0)
         {
-            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex - 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 }
