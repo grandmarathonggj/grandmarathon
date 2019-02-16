@@ -24,6 +24,8 @@ public class Level : MonoBehaviour
     private MeshRenderer _dayMat;
     private MeshRenderer _nightMat;
 
+    private bool _paused = false;
+
     private Timer _timer;
     private int _starCount;
 
@@ -73,6 +75,8 @@ public class Level : MonoBehaviour
         EventManager.StartListening(GameEvent.PICKUP,
             new Action<EventParam>(delegate(EventParam param) { _starCount++; }));
 
+        EventManager.StartListening(GameEvent.PREVIOUS_LEVEL,
+            new Action<EventParam>(delegate(EventParam param) { TriggerPreviousScene(); }));
         EventManager.StartListening(GameEvent.NEXT_LEVEL,
             new Action<EventParam>(delegate(EventParam param) { TriggerNextScene(); }));
         EventManager.StartListening(GameEvent.RETRY_LEVEL,
@@ -81,6 +85,22 @@ public class Level : MonoBehaviour
             new Action<EventParam>(delegate(EventParam param)
             {
                 EventManager.TriggerEvent(GameEvent.LEVEL_COMPLETED, new LevelCompletedParams(false, 0, 0));
+            }));
+        EventManager.StartListening(GameEvent.PAUSE_BUTTON_CLICKED,
+            new Action<EventParam>(delegate(EventParam param)
+            {
+                if (!_paused)
+                {
+                    Time.timeScale = 0;
+                    EventManager.TriggerEvent(GameEvent.PAUSE, null);
+                }
+                else
+                {
+                    Time.timeScale = 1;
+                    EventManager.TriggerEvent(GameEvent.UNPAUSE, null);
+                }
+
+                _paused = !_paused;
             }));
     }
 
@@ -91,7 +111,11 @@ public class Level : MonoBehaviour
             TriggerNextScene();
         }
 
-        
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            TriggerPreviousScene();
+         
+        }
     }
 
     public IEnumerator PlayerDeath()
@@ -138,8 +162,8 @@ public class Level : MonoBehaviour
         GameObject.FindObjectOfType<PlayerController>().enabled = false;
         celebrationPrefab.GetComponent<Animator>().SetTrigger("Win");
         float timeElasped = _timer.currentTick - _timer.startTimeOffset;
-        
-         timePoints = Mathf.RoundToInt(50000f - timeElasped) + 10000;
+
+        timePoints = Mathf.RoundToInt(50000f - timeElasped) + 10000;
 //		int stars = 0;
 //		int totalPoints = timePoints;
 //		if (totalPoints > 40000f) {
@@ -151,8 +175,7 @@ public class Level : MonoBehaviour
 //		else if (totalPoints > 15000f) {
 //			stars = 1;
 //		}
-        Invoke("DelayedComplete",5);
-        
+        Invoke("DelayedComplete", 5);
     }
 
     private void DelayedComplete()
@@ -162,11 +185,25 @@ public class Level : MonoBehaviour
 
     public void TriggerRestartScene()
     {
+        Time.timeScale = 1;
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void TriggerNextScene()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        Time.timeScale = 1;
+        if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+    }
+
+    public void TriggerPreviousScene()
+    {
+        Time.timeScale = 1;
+        if (SceneManager.GetActiveScene().buildIndex - 1 >= 0)
+        {
+            SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex - 1);
+        }
     }
 }

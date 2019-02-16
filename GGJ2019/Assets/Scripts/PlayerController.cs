@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using DefaultNamespace;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private Quaternion _lookRotation;
 
     private float yRotation;
+    private bool _diableInput = false;
 
     private void Start()
     {
@@ -31,35 +33,41 @@ public class PlayerController : MonoBehaviour
         _arrowContainer = transform.Find("ArrowContainer");
         _arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, 0.0f);
         _arrowContainer.transform.localRotation = new Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
+        EventManager.StartListening(GameEvent.PAUSE, delegate(EventParam param) { _diableInput = true; });
+        EventManager.StartListening(GameEvent.UNPAUSE, delegate(EventParam param) { _diableInput = false; });
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (_diableInput)
+        {
+            return;
+        }
+
         if (GetComponent<CustomPhysics>().grounded)
         {
             if (Input.GetMouseButtonDown(0))
             {
-
                 _dragDistance = 0.0f;
                 _direction = new Vector3();
                 _mouseStartPos = Input.mousePosition;
                 _normalizedDrag = 1.0f;
                 circleIndicator.Render(_normalizedDrag);
                 _arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                Cursor.visible = false;
+//                Cursor.visible = false;
             }
 
             else if (Input.GetMouseButton(0))
             {
-
                 _dragDistance = Vector3.Distance(Input.mousePosition, _mouseStartPos);
                 _dragDistance = Mathf.Clamp(_dragDistance, 0f, 100f);
 
                 _dragVector3 = Input.mousePosition - _mouseStartPos;
                 _dragVector3 = clampVector3(_dragVector3);
 
-                _direction = Quaternion.Euler(Vector3.up * yRotation) * invertVector3Direction(swapYZ(_dragVector3)).normalized;
+                _direction = Quaternion.Euler(Vector3.up * yRotation) *
+                             invertVector3Direction(swapYZ(_dragVector3)).normalized;
 
                 _normalizedDrag = Mathf.Lerp(_normalizedDrag, 1 + _dragDistance / 100f, 0.1f);
                 circleIndicator.Render(_normalizedDrag);
@@ -81,10 +89,12 @@ public class PlayerController : MonoBehaviour
             else
             {
                 grandmaHerself.chargeAmount = 0;
-                Cursor.visible = true;
+//                Cursor.visible = true;
                 circleIndicator.Render(0.0f);
             }
-        }else{
+        }
+        else
+        {
             if (Input.GetMouseButtonDown(0))
             {
                 _dragDistance = 0.0f;
@@ -93,7 +103,7 @@ public class PlayerController : MonoBehaviour
                 _normalizedDrag = 1.0f;
                 circleIndicator.Render(_normalizedDrag);
                 _arrowContainer.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                Cursor.visible = false;
+//                Cursor.visible = false;
             }
             else if (Input.GetMouseButton(0))
             {
@@ -104,11 +114,10 @@ public class PlayerController : MonoBehaviour
             else
             {
                 grandmaHerself.chargeAmount = 0;
-                Cursor.visible = true;
+//                Cursor.visible = true;
                 circleIndicator.Render(0.0f);
             }
         }
-
     }
 
     // Helper functions
@@ -132,5 +141,4 @@ public class PlayerController : MonoBehaviour
         result.z = Mathf.Clamp(input.z, min, max);
         return result;
     }
-
 }

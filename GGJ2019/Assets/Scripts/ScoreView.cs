@@ -24,7 +24,7 @@ public class ScoreView : MonoBehaviour
 
             if (success)
             {
-                GetComponentInChildren<Button>().transform.GetComponentInChildren<Text>().text = "Next level";
+                GetComponentInChildren<Button>().transform.GetComponentInChildren<Text>().text = "Next";
             }
             else
             {
