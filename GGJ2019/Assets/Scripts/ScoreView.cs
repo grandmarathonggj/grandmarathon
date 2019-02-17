@@ -14,7 +14,9 @@ public class ScoreView : MonoBehaviour
     {
         EventManager.StartListening(GameEvent.LEVEL_COMPLETED, new Action<EventParam>(delegate(EventParam param)
         {
-            transform.GetChild(0).gameObject.SetActive(true);
+//            transform.GetChild(0).gameObject.SetActive(true);
+            
+            GetComponent<Animator>().SetTrigger("Open");
             var levelCompletedParams = (LevelCompletedParams) param;
             var starView = GetComponentInChildren<StarView>();
             starView.SetStars(levelCompletedParams.star);

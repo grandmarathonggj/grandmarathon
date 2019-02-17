@@ -1584,12 +1584,52 @@ Prefab:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114218884110673540, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114218884110673540, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114743599390153570, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
         type: 2}
       propertyPath: m_havePropertiesChanged
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114743599390153570, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114807070227796832, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114807070227796832, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114682119254260912, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114682119254260912, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
+        type: 2}
+      propertyPath: m_isInputParsingRequired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114925567484999734, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
+        type: 2}
+      propertyPath: m_havePropertiesChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114925567484999734, guid: 6aa74f58b20d14d5d8c28750ec1f8fd7,
         type: 2}
       propertyPath: m_isInputParsingRequired
       value: 1

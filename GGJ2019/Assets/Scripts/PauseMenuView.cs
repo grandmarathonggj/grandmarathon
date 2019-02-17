@@ -9,9 +9,19 @@ namespace DefaultNamespace
         private void Start()
         {
             EventManager.StartListening(GameEvent.PAUSE,
-                param => { transform.Find("PausePanel").gameObject.SetActive(true); });
+                param =>
+                {
+//                    transform.Find("Panel").gameObject.SetActive(true); 
+                    GetComponent<Animator>().SetTrigger("Open");
+                    
+                });
             EventManager.StartListening(GameEvent.UNPAUSE,
-                param => { transform.Find("PausePanel").gameObject.SetActive(false); });
+                param =>
+                {
+//                    transform.Find("Panel").gameObject.SetActive(false);
+                    GetComponent<Animator>().SetTrigger("Close");
+
+                });
         }
 
         public void OnPreviousLevelClicked()
